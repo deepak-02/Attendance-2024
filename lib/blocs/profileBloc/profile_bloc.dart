@@ -29,6 +29,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         );
         if (response.statusCode == 200) {
           final data = profileDetailsModelFromJson(response.body);
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString("name", data.user!.name!);
           emit(GetProfileSuccessState(user: data.user));
         } else {
           emit(GetProfileErrorState(error: response.body));
