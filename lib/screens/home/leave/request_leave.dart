@@ -411,7 +411,7 @@ class _RequestLeaveState extends State<RequestLeave> {
                               ),
                               if (showTo)
                                 TableCalendar(
-                                  firstDay: today1,
+                                  firstDay: DateTime.now(),
                                   lastDay: DateTime.utc(2030, 3, 14),
                                   focusedDay: today2,
                                   headerStyle: const HeaderStyle(
