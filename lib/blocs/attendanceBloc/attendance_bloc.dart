@@ -26,7 +26,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
 
         DateTime now = DateTime.now();
         String formattedDate =
-            DateFormat('MM/dd/yyyy').format(now); //12/13/2023
+            DateFormat('M/d/yyyy').format(now);
 
         final response = await http.post(
           Uri.parse('${api}attendance/getByDate'),
@@ -39,7 +39,9 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
           List<AttendanceElement>? attendance = data.attendances;
           if (attendance!.isEmpty) {
             emit(GetCurrentAttendanceEmpty());
-          } else {
+          } else if(response.statusCode == 404){
+            emit(GetCurrentAttendanceEmpty());
+          }else {
             emit(GetCurrentAttendanceSuccess(attendance: attendance));
           }
         } else {
@@ -71,6 +73,8 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
           } else {
             emit(MyAttendanceSuccess(attendance: attendance));
           }
+        }else if(response.statusCode == 404){
+          emit(MyAttendanceEmpty());
         } else {
           emit(MyAttendanceError(message: response.body));
         }

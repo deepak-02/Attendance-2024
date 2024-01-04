@@ -142,6 +142,24 @@ class _VerifyOTPState extends State<VerifyOTP> {
                         // LengthLimitingTextInputFormatter(10),
                       ],
                     ),
+                    if (state is EmptyFieldState)
+                      Container(
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        height: 42,
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFFFF5F5F),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                        child: const Text(
+                          "OTP is required",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+
+                    const SizedBox(height: 10,),
 
                     state is VerifyOtpLoadingState
                         ? const BigButtonLoading()

@@ -6,6 +6,7 @@ abstract class ResetPasswordState {}
 class ResetPasswordInitial extends ResetPasswordState {}
 
 class UserNotFoundState extends ResetPasswordState {}
+class EmptyFieldState extends ResetPasswordState {}
 
 class SendOtpLoadingState extends ResetPasswordState {}
 

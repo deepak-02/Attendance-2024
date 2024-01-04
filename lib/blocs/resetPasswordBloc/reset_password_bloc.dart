@@ -20,6 +20,10 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
     on<SendOTPEvent>((event, emit) async {
       try {
         emit(SendOtpLoadingState());
+        if (event.email.isEmpty) {
+          emit(EmptyFieldState());
+          return;
+        }
         email = event.email;
 
         final response = await http.post(
@@ -44,6 +48,10 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
     on<OTPVerifyEvent>((event, emit) async {
       try {
         emit(VerifyOtpLoadingState());
+        if (event.otp.isEmpty) {
+          emit(EmptyFieldState());
+          return;
+        }
 
         final response = await http.post(
           Uri.parse('${api}user/verify-otp'),
