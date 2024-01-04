@@ -31,6 +31,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           final data = profileDetailsModelFromJson(response.body);
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString("name", data.user!.name!);
+          prefs.setString("batch", data.user!.batch!);
           emit(GetProfileSuccessState(user: data.user));
         } else {
           emit(GetProfileErrorState(error: response.body));
