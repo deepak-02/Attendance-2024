@@ -6,6 +6,9 @@ abstract class LeaveState {}
 class LeaveInitial extends LeaveState {}
 
 class RequestLeaveLoadingState extends LeaveState {}
+class ReasonEmptyState extends LeaveState {}
+class FromDateEmptyState extends LeaveState {}
+class ToDateEmptyState extends LeaveState {}
 
 class RequestLeaveSuccessState extends LeaveState {}
 

@@ -35,6 +35,18 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
       try {
         emit(RequestLeaveLoadingState());
 
+        if (reason.isEmpty|| reason == '') {
+          emit(ReasonEmptyState());
+          return;
+        } else if (fromDate.isEmpty || fromDate == '') {
+          emit(FromDateEmptyState());
+          return;
+        } else if (toDate.isEmpty || toDate == '') {
+          emit(ToDateEmptyState());
+          return;
+        }
+
+
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String email = prefs.getString('email')!;
         final response = await http.post(

@@ -243,6 +243,7 @@ class _LeaveRequestsState extends State<LeaveRequests> {
                       const SizedBox(
                         height: 16,
                       ),
+
                       if (state is ListLeaveSuccessState)
                         ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
@@ -283,7 +284,7 @@ class _LeaveRequestsState extends State<LeaveRequests> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Text(
+                                                  Text( leave.type == null || leave.type == '' ? "" :
                                                     leave.type![0]
                                                             .toUpperCase() +
                                                         leave.type!
@@ -355,7 +356,7 @@ class _LeaveRequestsState extends State<LeaveRequests> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(
+                                                  Text( leave.requestDate == null || leave.requestDate == '' || leave.toDate == null || leave.toDate == '' ? "" :
                                                     '${getDifference(leave.requestDate!, leave.toDate!)} Day Application',
                                                     style: const TextStyle(
                                                       color: Colors.black26,
@@ -591,7 +592,7 @@ class _LeaveRequestsState extends State<LeaveRequests> {
                                       ),
                                     ),
                                   ),
-                                  title: Text(
+                                  title: Text(leave.requestDate == null || leave.requestDate == '' || leave.toDate == null || leave.toDate == '' ? "" :
                                     '${getDifference(leave.requestDate!, leave.toDate!)} Day Application',
                                     style: const TextStyle(
                                       color: Colors.black26,
@@ -645,102 +646,6 @@ class _LeaveRequestsState extends State<LeaveRequests> {
                             const Text("No Leave Details Found!"),
                           ],
                         ),
-
-                      // Container(
-                      //   decoration: ShapeDecoration(
-                      //     color: const Color(0x00D9D9D9),
-                      //     shape: RoundedRectangleBorder(
-                      //       side: BorderSide(
-                      //         width: 1,
-                      //         color: Colors.black.withOpacity(0.5),
-                      //       ),
-                      //       borderRadius: BorderRadius.circular(16),
-                      //     ),
-                      //   ),
-                      //   padding: EdgeInsets.symmetric(vertical: 8,horizontal: 10),
-                      //   child: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: [
-                      //       Column(
-                      //         crossAxisAlignment: CrossAxisAlignment.start,
-                      //         children: [
-                      //           const Text(
-                      //             '1 Day Application',
-                      //             style: TextStyle(
-                      //               color: Colors.black26,
-                      //               fontSize: 14,
-                      //               fontWeight: FontWeight.w400,
-                      //             ),
-                      //           ),
-                      //           Text(
-                      //             'Wed, 10 Dec',
-                      //             style: const TextStyle(
-                      //               color: Colors.black,
-                      //               fontSize: 16,
-                      //               fontWeight: FontWeight.w700,
-                      //               height: 0,
-                      //             ),
-                      //           ),
-                      //           Text(
-                      //             'Casual',
-                      //             style: TextStyle(
-                      //               color: Color(0xFFFFD337),
-                      //               fontSize: 16,
-                      //               fontFamily: 'Inter',
-                      //               fontWeight: FontWeight.w400,
-                      //             ),
-                      //           )
-                      //
-                      //
-                      //         ],
-                      //       ),
-                      //
-                      //       Column(
-                      //         crossAxisAlignment: CrossAxisAlignment.end,
-                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //         children: [
-                      //           Container(
-                      //             width: 100,
-                      //             decoration: ShapeDecoration(
-                      //               color: Color(0x3FFFD337),
-                      //               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      //             ),
-                      //             alignment: Alignment.center,
-                      //             padding: EdgeInsets.all(2),
-                      //             child: Text(
-                      //               'Awaiting',
-                      //               style: TextStyle(
-                      //                 color: Color(0xFFDAAD0C),
-                      //                 fontSize: 16,
-                      //                 fontWeight: FontWeight.w700,
-                      //               ),
-                      //             ),
-                      //           ),
-                      //           Padding(
-                      //             padding: const EdgeInsets.only(top: 10),
-                      //             child: Container(
-                      //               width: 30,
-                      //               height: 30,
-                      //               decoration: ShapeDecoration(
-                      //                 color: Colors.black12,
-                      //                 shape: RoundedRectangleBorder(
-                      //                   borderRadius: BorderRadius.circular(8),
-                      //                 ),
-                      //               ),
-                      //               alignment: Alignment.center,
-                      //               child: const Icon(
-                      //                 Icons.arrow_forward_ios_rounded,
-                      //                 color: Colors.black45,
-                      //               ),
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //
-                      //     ],
-                      //   ),
-                      //
-                      // ),
                     ],
                   ),
                 ),

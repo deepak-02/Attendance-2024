@@ -188,24 +188,31 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(
                       height: 30,
                     ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Scan your QR code to mark attendance for',
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black45),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: ' Prathibhatheeram Foundation',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: Theme.of(context).primaryColor),
-                          ),
-                        ],
-                      ),
+                    const Text(
+                      'Scan your QR code to mark your attendance',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black45),
                     ),
+                    // RichText(
+                    //   text: TextSpan(
+                    //     text: 'Scan your QR code to mark attendance for',
+                    //     style: const TextStyle(
+                    //         fontSize: 20,
+                    //         fontWeight: FontWeight.w400,
+                    //         color: Colors.black45),
+                    //     children: <TextSpan>[
+                    //       TextSpan(
+                    //         text: ' Prathibhatheeram Foundation',
+                    //         style: TextStyle(
+                    //             fontSize: 20,
+                    //             fontWeight: FontWeight.w900,
+                    //             color: Theme.of(context).primaryColor),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(
                         width: 100,
                         child: Lottie.asset(
@@ -429,7 +436,26 @@ class _MyHomePageState extends State<MyHomePage> {
                       ],
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
+                    ),
+
+                    // if(tasks)
+                    // TextButton(
+                    //   onPressed: () {  },
+                    //   child: Text(
+                    //     'Your tasks: 0',
+                    //     style: TextStyle(
+                    //         fontSize: 20,
+                    //         decoration: TextDecoration.underline,
+                    //         decorationThickness: 2,
+                    //         decorationColor: Colors.black26,
+                    //         fontWeight: FontWeight.w400,
+                    //         color: Colors.black),
+                    //   ),
+                    // ),
+
+                    const SizedBox(
+                      height: 10,
                     ),
                     BigButton(
                       title: "Make a leave request",

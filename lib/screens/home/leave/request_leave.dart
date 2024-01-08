@@ -81,6 +81,10 @@ class _RequestLeaveState extends State<RequestLeave> {
     setState(() {
       viewFromDay = DateFormat('EEE, dd MMM yyyy').format(today1);
       viewToDay = DateFormat('EEE, dd MMM yyyy').format(today2);
+      String formattedDate = DateFormat('MM/dd/yyyy').format(today1);
+      BlocProvider.of<LeaveBloc>(context).add(ToDateChangeEvent(toDate: formattedDate));
+      BlocProvider.of<LeaveBloc>(context).add(FromDateChangeEvent(fromDate: formattedDate));
+      print(formattedDate);
     });
     super.initState();
   }
@@ -298,6 +302,27 @@ class _RequestLeaveState extends State<RequestLeave> {
                                     },
                                   ),
                                 ),
+
+                              if(state is ReasonEmptyState)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: double.infinity,
+                                    height: 42,
+                                    decoration: ShapeDecoration(
+                                      color: const Color(0xFFFF5F5F),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "Specify your reason",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+
                               const Divider(
                                 color: Colors.black12,
                                 thickness: 0.5,
@@ -360,6 +385,26 @@ class _RequestLeaveState extends State<RequestLeave> {
                                       isSameDay(day, today1),
                                   onDaySelected: _onFromSelected,
                                 ),
+                              if(state is FromDateEmptyState)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: double.infinity,
+                                    height: 42,
+                                    decoration: ShapeDecoration(
+                                      color: const Color(0xFFFF5F5F),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "Select a date",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+
                               const Divider(
                                 color: Colors.black12,
                                 thickness: 0.5,
@@ -422,6 +467,25 @@ class _RequestLeaveState extends State<RequestLeave> {
                                       isSameDay(day, today2),
                                   onDaySelected: _onToSelected,
                                 ),
+                              if(state is ToDateEmptyState)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: double.infinity,
+                                    height: 42,
+                                    decoration: ShapeDecoration(
+                                      color: const Color(0xFFFF5F5F),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "Select a date",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
                               const Divider(
                                 color: Colors.black12,
                                 thickness: 0.5,
@@ -462,7 +526,7 @@ class _RequestLeaveState extends State<RequestLeave> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  "$days",
+                                  "${days+1}",
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 16,
