@@ -544,15 +544,27 @@ class _RequestLeaveState extends State<RequestLeave> {
                         state is RequestLeaveLoadingState
                             ? const BigButtonLoading()
                             : BigButton(
-                                title: "Request leave for $days day",
+                                title: "Request leave for ${days+1} day",
                                 onPressed: () {
-                                  leaveBloc.add(RequestBtnPressEvent());
-                                  setState(() {
-                                    showType = false;
-                                    showReason = false;
-                                    showFrom = false;
-                                    showTo = false;
-                                  });
+                                  if (days < 0) {
+                                    Fluttertoast.showToast(
+                                        msg: "Invalid dates!",
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 1,
+                                        backgroundColor: const Color(0x3F000000),
+                                        textColor: Colors.white,
+                                        fontSize: 16.0);
+                                  }  else {
+                                    leaveBloc.add(RequestBtnPressEvent());
+                                    setState(() {
+                                      showType = false;
+                                      showReason = false;
+                                      showFrom = false;
+                                      showTo = false;
+                                    });
+                                  }
+
                                 },
                               ),
                       ],
