@@ -681,6 +681,6 @@ class _LeaveRequestsState extends State<LeaveRequests> {
     DateTime date2 = DateFormat('MM/dd/yyyy').parse(toDate);
     Duration difference = date2.difference(date1);
     int differenceInDays = difference.inDays;
-    return differenceInDays;
+    return differenceInDays + 1;
   }
 }
