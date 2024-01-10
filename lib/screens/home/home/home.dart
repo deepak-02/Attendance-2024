@@ -68,6 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   callApi() {
+    BlocProvider.of<HomeBloc>(context).add(UploadFCMToken());
     BlocProvider.of<HomeBloc>(context).add(GetProfileImage());
     BlocProvider.of<HomeBloc>(context).add(GetAttendanceStatus());
   }

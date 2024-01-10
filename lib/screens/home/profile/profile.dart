@@ -334,7 +334,9 @@ class _ProfileState extends State<Profile> {
 
   void logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('fCMToken');
     prefs.clear();
+    prefs.setString('fCMToken',token!);
     nav.Get.offAll(const LoginPage());
   }
 }

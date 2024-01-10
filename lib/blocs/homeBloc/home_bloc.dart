@@ -13,6 +13,34 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeInitial()) {
     on<HomeEvent>((event, emit) {});
 
+    on<UploadFCMToken>((event, emit) async {
+      try {
+        print("Token Uploading........");
+        emit(FCMTokenLoading());
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String email = prefs.getString('email')!;
+        String fCMToken = prefs.getString('fCMToken')!;
+
+        if (email != "") {
+          final response = await http.post(
+            Uri.parse('${api}notification/save-token'),
+            body: jsonEncode({"email": email, "token": fCMToken}),
+            headers: {"content-type": "application/json"},
+          );
+          print(response.statusCode);
+          print(response.body);
+          if (response.statusCode == 200) {
+            emit(FCMTokenSuccess());
+          } else {
+            emit(FCMTokenError());
+          }
+        }
+      } catch (e) {
+        print(e);
+        emit(FCMTokenError());
+      }
+    });
+
     on<GetAttendanceStatus>((event, emit) async {
       try {
         emit(AttendanceStatusLoading());

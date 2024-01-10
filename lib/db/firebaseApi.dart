@@ -4,8 +4,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 import '../main.dart';
+import 'api.dart';
 
 Future handleBackgroundMessage(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -115,8 +118,34 @@ class FirebaseApi {
     final fCMToken = await _firebaseMessaging.getToken();
     print('Token NOT: $fCMToken');
     // add token to database
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('fCMToken',fCMToken!);
 
     initPushNotifications();
     initNotification(_localNotifications);
   }
+
+  // void saveToken(String? fCMToken) async {
+  //   try{
+  //     SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     var email = prefs.getString('email');
+  //     if (email != null || email != "") {
+  //
+  //       final response = await http.post(
+  //         Uri.parse('${api}notification/save-token'),
+  //         body: jsonEncode({
+  //           "email": email,
+  //           "token": fCMToken
+  //         }),
+  //         headers: {"content-type": "application/json"},
+  //       );
+  //       print(response.statusCode);
+  //       print(response.body);
+  //
+  //     }
+  //   }catch(e){
+  //     print(e);
+  //   }
+  //
+  // }
 }
