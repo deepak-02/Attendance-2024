@@ -2,6 +2,7 @@ import 'package:attendance/blocs/attendanceBloc/attendance_bloc.dart';
 import 'package:attendance/blocs/loginBloc/login_bloc.dart';
 import 'package:attendance/screens/home/dashboard.dart';
 import 'package:attendance/screens/login/login_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -13,15 +14,22 @@ import 'blocs/leaveBloc/leave_bloc.dart';
 import 'blocs/profileBloc/profile_bloc.dart';
 import 'blocs/resetPasswordBloc/reset_password_bloc.dart';
 import 'blocs/signUpBloc/sign_up_bloc.dart';
+import 'db/firebaseApi.dart';
 
 dynamic email;
-Future<void> main() async {
+final navigatorKey = GlobalKey<NavigatorState>();
+ main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await FirebaseApi().initNotifications();
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
   ));
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
   email = prefs.getString('email');
 
@@ -58,6 +66,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: GetMaterialApp(
+        navigatorKey: navigatorKey,
         title: 'Attendance',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
