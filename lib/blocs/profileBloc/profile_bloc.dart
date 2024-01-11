@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -143,6 +144,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(UploadProfileImageErrorState(error: e.toString()));
       }
     });
+
     on<UpdateProfileEvent>((event, emit) async {
       try {
         emit(UpdateProfileLoadingState());
@@ -170,5 +172,34 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(UpdateProfileErrorState(error: e.toString()));
       }
     });
+
+    on<LogoutEvent>((event, emit) async {
+      try {
+        print("Removing token.....");
+        emit(LogoutLoadingState());
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        String email = prefs.getString('email')!;
+        final response = await http.get(
+          Uri.parse('${api}notification/delete-token/$email'),
+          headers: {"content-type": "application/json"},
+        );
+        print(response.statusCode);
+        print(response.body);
+        if (response.statusCode == 200) {
+
+          var token = prefs.getString('fCMToken');
+          prefs.clear();
+          prefs.setString('fCMToken',token!);
+
+          emit(LogoutSuccessState());
+        } else {
+          emit(LogoutErrorState());
+        }
+      } catch (e) {
+        emit(LogoutErrorState());
+      }
+    });
+
+
   }
 }

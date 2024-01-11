@@ -40,6 +40,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    final profileBloc = context.read<ProfileBloc>();
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -82,6 +83,7 @@ class _ProfileState extends State<Profile> {
           ],
         ),
         body: BlocConsumer<ProfileBloc, ProfileState>(
+          bloc: profileBloc,
           listener: (context, state) {
             print(state);
             if (state is GetProfileImageSuccessState) {
@@ -111,6 +113,17 @@ class _ProfileState extends State<Profile> {
             } else if (state is GetProfileErrorState) {
               Fluttertoast.showToast(
                   msg: state.error,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: const Color(0x3F000000),
+                  textColor: Colors.white,
+                  fontSize: 16.0);
+            } else if (state is LogoutSuccessState) {
+              nav.Get.offAll(const LoginPage());
+            } else if( state is LogoutErrorState){
+              Fluttertoast.showToast(
+                  msg: "Something Wrong!",
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.CENTER,
                   timeInSecForIosWeb: 1,
@@ -277,6 +290,9 @@ class _ProfileState extends State<Profile> {
                         const SizedBox(
                           height: 20,
                         ),
+
+
+                        state is LogoutLoadingState ? BigOutlinedButtonLoading() :
                         BigOutlinedButtonWithIcon(
                           title: 'Logout',
                           icon: Icons.logout,
@@ -299,7 +315,7 @@ class _ProfileState extends State<Profile> {
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      logout();
+                                      profileBloc.add(LogoutEvent());
                                     },
                                     child: const Text(
                                       'OK',
@@ -332,11 +348,14 @@ class _ProfileState extends State<Profile> {
     }
   }
 
-  void logout() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('fCMToken');
-    prefs.clear();
-    prefs.setString('fCMToken',token!);
-    nav.Get.offAll(const LoginPage());
-  }
+  // void logout() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   var token = prefs.getString('fCMToken');
+  //   // tokenRemove();
+  //   prefs.clear();
+  //   prefs.setString('fCMToken',token!);
+  //   nav.Get.offAll(const LoginPage());
+  // }
+
+  // void tokenRemove() {BlocProvider.of<ProfileBloc>(context).add(LogoutEvent());}
 }

@@ -8,6 +8,7 @@ class GetProfileEvent extends ProfileEvent {}
 class GetProfileImageEvent extends ProfileEvent {}
 
 class UpdateProfileEvent extends ProfileEvent {}
+class LogoutEvent extends ProfileEvent {}
 
 class UploadProfileImageEvent extends ProfileEvent {
   final File image;
