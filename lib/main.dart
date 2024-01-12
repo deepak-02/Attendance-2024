@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'blocs/adminBloc/admin_bloc.dart';
 import 'blocs/homeBloc/home_bloc.dart';
 import 'blocs/leaveBloc/leave_bloc.dart';
 import 'blocs/profileBloc/profile_bloc.dart';
@@ -63,6 +64,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<ResetPasswordBloc>(
           create: (context) => ResetPasswordBloc(),
+        ),
+        BlocProvider<AdminBloc>(
+          create: (context) => AdminBloc(),
         ),
       ],
       child: GetMaterialApp(

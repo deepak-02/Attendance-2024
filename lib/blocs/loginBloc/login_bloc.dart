@@ -52,6 +52,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             prefs.setString("name", responseData['name']);
             prefs.setString("email", email);
             prefs.setString("batch", responseData['batch']);
+            prefs.setString("role", responseData['role']);
 
             emit(LoginSuccessState());
           } else if (response.statusCode == 204) {

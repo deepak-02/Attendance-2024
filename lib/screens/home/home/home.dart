@@ -14,6 +14,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:slidable_button/slidable_button.dart';
 
 import '../../../blocs/homeBloc/home_bloc.dart';
+import '../../AdminScreens/attendance/list_attendance_admin.dart';
 import '../leave/leave_requests.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -458,6 +459,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(
                       height: 10,
                     ),
+                    // if admin show all attendances button by hiding the leave request
+                    BigButton(
+                      title: "Attendances",
+                      onPressed: () {
+                        nav.Get.to(const ListAttendanceAdmin());
+                      },
+                    ),
                     BigButton(
                       title: "Make a leave request",
                       onPressed: () {
@@ -467,6 +475,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(
                       height: 16,
                     ),
+
+                    // if admin show all leave requests
+
                     BigOutlinedButton(
                       title: "View your leave requests",
                       onPressed: () {
