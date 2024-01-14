@@ -9,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import '../../../blocs/adminBloc/admin_bloc.dart';
 import '../../../db/admin/adminAttendanceModel.dart';
 import '../../../widgets/full_screen_image.dart';
+import '../user/user_details_admin.dart';
 
 class ListAttendanceAdmin extends StatefulWidget {
   const ListAttendanceAdmin({Key? key}) : super(key: key);
@@ -262,6 +263,7 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                                         InkWell(
                                           onTap: () {
                                             // Get to profile page with the item details
+                                            nav.Get.to(UserDetailsAdmin(details: item,));
                                           },
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(5)),
@@ -497,7 +499,7 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                           ),
                           child: DropdownButton<String>(
                             underline: Container(),
-                            items: ['Batch 1', 'Batch 2', 'Batch 3'].map((e) {
+                            items: ['All','Batch 1', 'Batch 2', 'Batch 3'].map((e) {
                               return DropdownMenuItem<String>(
                                   value: e, child: Text(e));
                             }).toList(),
@@ -519,11 +521,19 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                     title: "Apply Filter",
                     onPressed: () {
                       if (selectedOption == "Custom"){
-                        BlocProvider.of<AdminBloc>(context).add(GetAdminAttendanceEvent(filter: {
-                          "month": "${selectedMonthIndex+1}",
-                          "year": selectedYear,
-                          "batch": selectedBatch
-                        }));
+                        if (selectedBatch == 'All') {
+                          BlocProvider.of<AdminBloc>(context).add(GetAdminAttendanceEvent(filter: {
+                            "month": "${selectedMonthIndex+1}",
+                            "year": selectedYear
+                          }));
+                        }  else{
+                          BlocProvider.of<AdminBloc>(context).add(GetAdminAttendanceEvent(filter: {
+                            "month": "${selectedMonthIndex+1}",
+                            "year": selectedYear,
+                            "batch": selectedBatch
+                          }));
+                        }
+
                       } else{
                         BlocProvider.of<AdminBloc>(context).add(GetAdminAttendanceEvent(filter: const {}));
                       }

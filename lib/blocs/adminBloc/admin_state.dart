@@ -17,3 +17,24 @@ class GetAdminAttendanceError extends AdminState {
 
   GetAdminAttendanceError(this.error);
 }
+
+
+class GetAdminLeaveRequestsLoading extends AdminState {}
+class GetAdminLeaveRequestsNotFound extends AdminState {}
+class GetAdminLeaveRequestsSuccess extends AdminState {
+  final List<LeaveRequest>? leaveRequests;
+
+  GetAdminLeaveRequestsSuccess(this.leaveRequests);
+}
+class GetAdminLeaveRequestsError extends AdminState {
+  final String error;
+
+  GetAdminLeaveRequestsError(this.error);
+}
+class LeaveStatusChangeLoading extends AdminState {}
+class LeaveStatusChangeSuccess extends AdminState {}
+class LeaveStatusChangeError extends AdminState {
+  final String error;
+
+  LeaveStatusChangeError(this.error);
+}

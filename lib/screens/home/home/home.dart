@@ -15,6 +15,7 @@ import 'package:slidable_button/slidable_button.dart';
 
 import '../../../blocs/homeBloc/home_bloc.dart';
 import '../../AdminScreens/attendance/list_attendance_admin.dart';
+import '../../AdminScreens/leave/leave_requests_admin.dart';
 import '../leave/leave_requests.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -30,6 +31,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   var image = '';
   String status = '';
+
+  String ? role = 'user';
 
   Future<void> scanQRIn() async {
     String barcodeScanRes;
@@ -64,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       name = prefs.getString('name')!;
       email = prefs.getString('email')!;
+      role = prefs.getString('role');
     });
     callApi();
   }
@@ -441,6 +445,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 10,
                     ),
 
+
+
+
                     // if(tasks)
                     // TextButton(
                     //   onPressed: () {  },
@@ -460,12 +467,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 10,
                     ),
                     // if admin show all attendances button by hiding the leave request
+                    if(role == 'admin')
                     BigButton(
                       title: "Attendances",
                       onPressed: () {
                         nav.Get.to(const ListAttendanceAdmin());
                       },
-                    ),
+                    )
+                    else
                     BigButton(
                       title: "Make a leave request",
                       onPressed: () {
@@ -476,14 +485,25 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 16,
                     ),
 
-                    // if admin show all leave requests
-
+                    if(role == 'admin')
+                      BigOutlinedButton(
+                        title: "Leave Requests",
+                        onPressed: () {
+                          nav.Get.to(const LeaveRequestsAdmin());
+                        },
+                      )
+                    else
                     BigOutlinedButton(
                       title: "View your leave requests",
                       onPressed: () {
                         nav.Get.to(const LeaveRequests());
                       },
                     ),
+
+
+
+
+
                   ],
                 ),
               ),

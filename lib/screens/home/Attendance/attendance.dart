@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' as nav;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../blocs/attendanceBloc/attendance_bloc.dart';
 import '../../../db/attendance/currentAttendanceModel.dart';
 import '../../../widgets/full_screen_image.dart';
@@ -16,12 +17,22 @@ class Attendance extends StatefulWidget {
 
 class _AttendanceState extends State<Attendance> {
   List<AttendanceElement>? attendance = [];
+  String ? role = 'user';
 
   @override
   void initState() {
-    BlocProvider.of<AttendanceBloc>(context).add(GetCurrentAttendance());
+      BlocProvider.of<AttendanceBloc>(context).add(GetCurrentAttendance());
+    getRole();
     super.initState();
   }
+
+  void getRole() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+   setState(() {
+     role = prefs.getString('role');
+   });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +43,7 @@ class _AttendanceState extends State<Attendance> {
         elevation: 0,
         title: const Text("Today's Attendance"),
         actions: [
+          if(role == 'user')
           IconButton(
               tooltip: "My Attendance",
               onPressed: () {

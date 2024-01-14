@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../main.dart';
+import '../screens/AdminScreens/leave/leave_requests_admin.dart';
 import 'api.dart';
 
 Future handleBackgroundMessage(RemoteMessage message) async {
@@ -24,17 +25,24 @@ Future handleBackgroundMessage(RemoteMessage message) async {
 }
 
 void handleMessage(RemoteMessage? message) {
+
   if (message == null) return;
 
   // if message data has a certain route specified go there , else no navigation allowed
-  navigatorKey.currentState
-      ?.push(MaterialPageRoute(builder: (context) => LeaveRequests()));
+  if(message.data['click'] == "user") {
+    navigatorKey.currentState
+        ?.push(MaterialPageRoute(builder: (context) => LeaveRequests()));
+  }else if(message.data["click"] == "admin") {
+    navigatorKey.currentState
+        ?.push(MaterialPageRoute(builder: (context) => LeaveRequestsAdmin()));
+  }
+
 }
 
 
 
 
-void showLocalNotification(RemoteNotification notification) async {
+void showLocalNotification(RemoteNotification notification,Map<String, dynamic> payload) async {
   final _localNotifications = FlutterLocalNotificationsPlugin();
   const AndroidNotificationDetails androidChannel = AndroidNotificationDetails(
     'high_importance_channel',
@@ -53,7 +61,7 @@ void showLocalNotification(RemoteNotification notification) async {
     notification.title,
     notification.body,
     platformChannelSpecifics,
-    payload: jsonEncode(notification.toMap()),
+    payload: jsonEncode(payload),
   );
 }
 
@@ -67,7 +75,9 @@ Future<void> initNotification(
       requestBadgePermission: true,
       requestSoundPermission: true,
       onDidReceiveLocalNotification:
-          (int id, String? title, String? body, String? payload) async {});
+          (int id, String? title, String? body, String? payload) async {
+        print("Body: ${body}");
+          });
 
   var initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
@@ -76,11 +86,19 @@ Future<void> initNotification(
           (NotificationResponse notificationResponse) async {
     print("aaaaaaaaaaaaaaaaaaaaaaaaaaa");
     print("$notificationResponse");
+    print("${notificationResponse.payload}");
     // handleMessage(message);
     // if message data has a certain route specified go there , else no navigation allowed
-    navigatorKey.currentState
-        ?.push(MaterialPageRoute(builder: (context) => LeaveRequests()));
-          });
+    var payload = jsonDecode(notificationResponse.payload.toString());
+    if (payload['click'] == "user") {
+      navigatorKey.currentState
+          ?.push(MaterialPageRoute(builder: (context) => LeaveRequests()));
+
+    }else if(payload["click"] == "admin") {
+      navigatorKey.currentState
+          ?.push(MaterialPageRoute(builder: (context) => LeaveRequestsAdmin()));
+    }
+});
 }
 
 Future initPushNotifications() async {
@@ -104,8 +122,11 @@ Future initPushNotifications() async {
   FirebaseMessaging.onMessage.listen((message) {
     final notification = message.notification;
     if (notification == null) return;
-    showLocalNotification(message.notification!);
+    showLocalNotification(message.notification!,message.data);
     // handleMessage(message);
+    print("Title : ${message.notification?.title}");
+    print("Body: ${message.notification?.body}");
+    print("Payload: ${message.data}");
   });
 }
 
@@ -125,27 +146,4 @@ class FirebaseApi {
     initNotification(_localNotifications);
   }
 
-  // void saveToken(String? fCMToken) async {
-  //   try{
-  //     SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     var email = prefs.getString('email');
-  //     if (email != null || email != "") {
-  //
-  //       final response = await http.post(
-  //         Uri.parse('${api}notification/save-token'),
-  //         body: jsonEncode({
-  //           "email": email,
-  //           "token": fCMToken
-  //         }),
-  //         headers: {"content-type": "application/json"},
-  //       );
-  //       print(response.statusCode);
-  //       print(response.body);
-  //
-  //     }
-  //   }catch(e){
-  //     print(e);
-  //   }
-  //
-  // }
 }

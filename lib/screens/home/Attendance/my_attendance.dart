@@ -5,7 +5,8 @@ import 'package:get/get.dart' as nav;
 import '../../../blocs/attendanceBloc/attendance_bloc.dart';
 
 class MyAttendance extends StatefulWidget {
-  const MyAttendance({super.key});
+  final String ? email;
+  const MyAttendance({super.key, this.email});
 
   @override
   State<MyAttendance> createState() => _MyAttendanceState();
@@ -16,7 +17,7 @@ class _MyAttendanceState extends State<MyAttendance> {
 
   @override
   void initState() {
-    BlocProvider.of<AttendanceBloc>(context).add(GetMyAttendance());
+    BlocProvider.of<AttendanceBloc>(context).add(GetMyAttendance(widget.email));
     super.initState();
   }
 
@@ -27,7 +28,7 @@ class _MyAttendanceState extends State<MyAttendance> {
       appBar: AppBar(
         surfaceTintColor: Colors.white,
         elevation: 0,
-        title: const Text("My Attendance"),
+        title: Text(widget.email == '' || widget.email == null ? "My Attendance" : "Attendance"),
         leading: IconButton(
           tooltip: "back",
           icon: const Icon(Icons.arrow_back),
@@ -55,7 +56,7 @@ class _MyAttendanceState extends State<MyAttendance> {
             );
           } else if (state is MyAttendanceEmpty || attendance!.isEmpty) {
             return RefreshIndicator(
-              onRefresh: () async => attendanceBloc.add(GetMyAttendance()),
+              onRefresh: () async => attendanceBloc.add(GetMyAttendance(widget.email)),
               child: ListView(
                 children: <Widget>[
                   SizedBox(
@@ -70,7 +71,7 @@ class _MyAttendanceState extends State<MyAttendance> {
             );
           } else if (state is MyAttendanceError) {
             return RefreshIndicator(
-              onRefresh: () async => attendanceBloc.add(GetCurrentAttendance()),
+              onRefresh: () async => attendanceBloc.add(GetMyAttendance(widget.email)),
               child: ListView(
                 children: <Widget>[
                   SizedBox(
@@ -85,7 +86,7 @@ class _MyAttendanceState extends State<MyAttendance> {
             );
           } else if (state is MyAttendanceSuccess || attendance!.isNotEmpty) {
             return RefreshIndicator(
-              onRefresh: () async => attendanceBloc.add(GetMyAttendance()),
+              onRefresh: () async => attendanceBloc.add(GetMyAttendance(widget.email)),
               child: ListView.separated(
                 itemCount: attendance!.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -131,7 +132,7 @@ class _MyAttendanceState extends State<MyAttendance> {
             );
           } else {
             return RefreshIndicator(
-              onRefresh: () async => attendanceBloc.add(GetMyAttendance()),
+              onRefresh: () async => attendanceBloc.add(GetMyAttendance(widget.email)),
               child: ListView(
                 children: <Widget>[
                   SizedBox(

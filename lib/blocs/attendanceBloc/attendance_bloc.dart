@@ -60,24 +60,47 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         String email = prefs.getString('email')!;
 
-        final response = await http.get(
-          Uri.parse('${api}attendance/get/$email'),
-          headers: {"content-type": "application/json"},
-        );
-
-        if (response.statusCode == 200) {
-          final data = attendanceHistoryFromJson(response.body);
-          List<Attendance>? attendance = data.attendances;
-          if (attendance!.isEmpty) {
+        if (event.email == null || event.email == '') {
+          final response = await http.get(
+            Uri.parse('${api}attendance/get/$email'),
+            headers: {"content-type": "application/json"},
+          );
+          if (response.statusCode == 200) {
+            final data = attendanceHistoryFromJson(response.body);
+            List<Attendance>? attendance = data.attendances;
+            if (attendance!.isEmpty) {
+              emit(MyAttendanceEmpty());
+            } else {
+              emit(MyAttendanceSuccess(attendance: attendance));
+            }
+          }else if(response.statusCode == 404){
             emit(MyAttendanceEmpty());
           } else {
-            emit(MyAttendanceSuccess(attendance: attendance));
+            emit(MyAttendanceError(message: response.body));
           }
-        }else if(response.statusCode == 404){
-          emit(MyAttendanceEmpty());
-        } else {
-          emit(MyAttendanceError(message: response.body));
+        }  else{
+          final response = await http.get(
+            Uri.parse('${api}attendance/get/${event.email}'),
+            headers: {"content-type": "application/json"},
+          );
+          if (response.statusCode == 200) {
+            final data = attendanceHistoryFromJson(response.body);
+            List<Attendance>? attendance = data.attendances;
+            if (attendance!.isEmpty) {
+              emit(MyAttendanceEmpty());
+            } else {
+              emit(MyAttendanceSuccess(attendance: attendance));
+            }
+          }else if(response.statusCode == 404){
+            emit(MyAttendanceEmpty());
+          } else {
+            emit(MyAttendanceError(message: response.body));
+          }
         }
+
+
+
+
       } catch (e) {
         print(e);
         emit(MyAttendanceError(message: e.toString()));

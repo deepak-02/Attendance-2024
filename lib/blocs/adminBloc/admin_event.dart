@@ -8,3 +8,16 @@ class GetAdminAttendanceEvent extends AdminEvent {
 
   GetAdminAttendanceEvent({required this.filter});
 }
+class GetAdminLeaveRequestsEvent extends AdminEvent {
+  final String type;
+
+  GetAdminLeaveRequestsEvent({required this.type});
+}
+
+class LeaveStatusChangeEvent extends AdminEvent {
+  final String status;
+  final String email;
+  final String id;
+
+  LeaveStatusChangeEvent({required this.email, required this.id, required this.status});
+}
