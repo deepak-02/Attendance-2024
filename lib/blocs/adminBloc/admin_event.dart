@@ -21,3 +21,8 @@ class LeaveStatusChangeEvent extends AdminEvent {
 
   LeaveStatusChangeEvent({required this.email, required this.id, required this.status});
 }
+class GetAllUsers extends AdminEvent {
+  final String filter;
+
+  GetAllUsers({required this.filter});
+}

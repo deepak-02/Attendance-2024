@@ -5,10 +5,12 @@ class BigButton extends StatelessWidget {
     super.key,
     this.onPressed,
     required this.title,
+    this.backgroundColor,
   });
 
   final Function()? onPressed;
   final String title;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class BigButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white,
         // backgroundColor: const Color(0xFF21C69F),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: backgroundColor ?? Theme.of(context).primaryColor,
         minimumSize: const Size(double.infinity, 50),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(14.0),

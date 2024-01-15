@@ -38,3 +38,16 @@ class LeaveStatusChangeError extends AdminState {
 
   LeaveStatusChangeError(this.error);
 }
+
+class GetAllUsersLoading extends AdminState {}
+class GetAllUsersSuccess extends AdminState {
+  final List<AdminUsersModel> users;
+
+  GetAllUsersSuccess({required this.users});
+}
+class GetAllUsersNotFound extends AdminState {}
+class GetAllUsersError extends AdminState {
+  final String error;
+
+  GetAllUsersError(this.error);
+}

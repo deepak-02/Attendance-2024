@@ -2,6 +2,7 @@ import 'package:attendance/blocs/attendanceBloc/attendance_bloc.dart';
 import 'package:attendance/blocs/loginBloc/login_bloc.dart';
 import 'package:attendance/screens/home/dashboard.dart';
 import 'package:attendance/screens/login/login_page.dart';
+import 'package:attendance/widgets/loadingSplashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +18,7 @@ import 'blocs/resetPasswordBloc/reset_password_bloc.dart';
 import 'blocs/signUpBloc/sign_up_bloc.dart';
 import 'db/firebaseApi.dart';
 
-dynamic email;
+
 final navigatorKey = GlobalKey<NavigatorState>();
  main() async {
 
@@ -31,8 +32,6 @@ final navigatorKey = GlobalKey<NavigatorState>();
     statusBarIconBrightness: Brightness.dark,
   ));
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  email = prefs.getString('email');
 
   runApp(const MyApp());
 }
@@ -84,9 +83,8 @@ class MyApp extends StatelessWidget {
               shadowColor: Colors.transparent),
           useMaterial3: true,
         ),
-        home: email == null || email == ""
-            ? const LoginPage()
-            : const Dashboard(),
+        home: const AnimatedProgressBar(),
+
       ),
     );
   }

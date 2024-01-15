@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../db/admin/adminAttendanceModel.dart';
+import '../../db/admin/adminUsersModel.dart';
 import '../../db/api.dart';
 import '../../db/leave/listLeave.dart';
 
@@ -121,6 +122,31 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
       }catch(e){
         print(e);
         emit(LeaveStatusChangeError(e.toString()));
+      }
+    });
+
+
+    on<GetAllUsers>((event, emit) async {
+      try{
+        emit(GetAllUsersLoading());
+
+        final response = await http.get(
+          Uri.parse('${api}auth/get-all/${event.filter}'),
+          headers: {"content-type": "application/json"},
+        );
+        if (response.statusCode == 200) {
+          final users = adminUsersModelFromJson(response.body);
+          emit(GetAllUsersSuccess(users: users));
+        }  else if (response.statusCode == 404) {
+          emit(GetAllUsersNotFound());
+        }  else {
+          emit(GetAllUsersError(response.body));
+        }
+
+
+      }catch(e){
+        print(e);
+        emit(GetAllUsersError(e.toString()));
       }
     });
 

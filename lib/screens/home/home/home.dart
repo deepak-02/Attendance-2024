@@ -16,6 +16,7 @@ import 'package:slidable_button/slidable_button.dart';
 import '../../../blocs/homeBloc/home_bloc.dart';
 import '../../AdminScreens/attendance/list_attendance_admin.dart';
 import '../../AdminScreens/leave/leave_requests_admin.dart';
+import '../../AdminScreens/user/all_users.dart';
 import '../leave/leave_requests.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -174,6 +175,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               // )).then((value) { homeBloc.add(GetProfileImage());});
                               nav.Get.to(const Profile())!.then((value) {
                                 callApi();
+                                setState(() {});
                               });
                             },
                             child: image == ''
@@ -466,10 +468,25 @@ class _MyHomePageState extends State<MyHomePage> {
                     const SizedBox(
                       height: 10,
                     ),
-                    // if admin show all attendances button by hiding the leave request
+
+                    if(role == 'admin')
+                      BigButton(
+                        title: "Users",
+                        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                        onPressed: () {
+                          nav.Get.to(const AllUsers());
+                        },
+                      ),
+                    if(role == 'admin')
+                    const SizedBox(
+                      height: 16,
+                    ),
+
+
                     if(role == 'admin')
                     BigButton(
                       title: "Attendances",
+
                       onPressed: () {
                         nav.Get.to(const ListAttendanceAdmin());
                       },
