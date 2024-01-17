@@ -75,7 +75,6 @@ class _LeaveRequestsState extends State<LeaveRequests> {
                       const SizedBox(
                         height: 16,
                       ),
-
                       Container(
                         width: double.infinity,
                         height: 50,
@@ -239,11 +238,9 @@ class _LeaveRequestsState extends State<LeaveRequests> {
                           ],
                         ),
                       ),
-
                       const SizedBox(
                         height: 16,
                       ),
-
                       if (state is ListLeaveSuccessState)
                         ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
@@ -284,11 +281,14 @@ class _LeaveRequestsState extends State<LeaveRequests> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Text( leave.type == null || leave.type == '' ? "" :
-                                                    leave.type![0]
-                                                            .toUpperCase() +
-                                                        leave.type!
-                                                            .substring(1),
+                                                  Text(
+                                                    leave.type == null ||
+                                                            leave.type == ''
+                                                        ? ""
+                                                        : leave.type![0]
+                                                                .toUpperCase() +
+                                                            leave.type!
+                                                                .substring(1),
                                                     style: TextStyle(
                                                       color: leave.type ==
                                                               'sick'
@@ -356,8 +356,15 @@ class _LeaveRequestsState extends State<LeaveRequests> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text( leave.requestDate == null || leave.requestDate == '' || leave.toDate == null || leave.toDate == '' ? "" :
-                                                    '${getDifference(leave.requestDate!, leave.toDate!)} Day Application',
+                                                  Text(
+                                                    leave.requestDate == null ||
+                                                            leave.requestDate ==
+                                                                '' ||
+                                                            leave.toDate ==
+                                                                null ||
+                                                            leave.toDate == ''
+                                                        ? ""
+                                                        : '${getDifference(leave.requestDate!, leave.toDate!)} Day Application',
                                                     style: const TextStyle(
                                                       color: Colors.black26,
                                                       fontSize: 14,
@@ -592,8 +599,13 @@ class _LeaveRequestsState extends State<LeaveRequests> {
                                       ),
                                     ),
                                   ),
-                                  title: Text(leave.requestDate == null || leave.requestDate == '' || leave.toDate == null || leave.toDate == '' ? "" :
-                                    '${getDifference(leave.requestDate!, leave.toDate!)} Day Application',
+                                  title: Text(
+                                    leave.requestDate == null ||
+                                            leave.requestDate == '' ||
+                                            leave.toDate == null ||
+                                            leave.toDate == ''
+                                        ? ""
+                                        : '${getDifference(leave.requestDate!, leave.toDate!)} Day Application',
                                     style: const TextStyle(
                                       color: Colors.black26,
                                       fontSize: 14,
@@ -633,7 +645,6 @@ class _LeaveRequestsState extends State<LeaveRequests> {
                                 ),
                               );
                             }),
-
                       if (state is ListLeaveNotFoundState)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,

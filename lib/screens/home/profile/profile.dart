@@ -121,7 +121,7 @@ class _ProfileState extends State<Profile> {
                   fontSize: 16.0);
             } else if (state is LogoutSuccessState) {
               nav.Get.offAll(const LoginPage());
-            } else if( state is LogoutErrorState){
+            } else if (state is LogoutErrorState) {
               Fluttertoast.showToast(
                   msg: "Something Wrong!",
                   toastLength: Toast.LENGTH_SHORT,
@@ -245,7 +245,7 @@ class _ProfileState extends State<Profile> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 nav.Get.to(const About());
                               },
                               child: Container(
@@ -290,43 +290,44 @@ class _ProfileState extends State<Profile> {
                         const SizedBox(
                           height: 20,
                         ),
-
-
-                        state is LogoutLoadingState ? BigOutlinedButtonLoading() :
-                        BigOutlinedButtonWithIcon(
-                          title: 'Logout',
-                          icon: Icons.logout,
-                          onPressed: () {
-                            showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                surfaceTintColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(15.0))),
-                                title: const Text("Are you sure?"),
-                                content: const Text("Do you want to logout?"),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () => nav.Get.back(),
-                                    child: const Text('Cancel',
-                                        style: TextStyle(
-                                            color: Color(0xff7f91dd))),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      profileBloc.add(LogoutEvent());
-                                    },
-                                    child: const Text(
-                                      'OK',
-                                      style: TextStyle(color: Colors.red),
+                        state is LogoutLoadingState
+                            ? BigOutlinedButtonLoading()
+                            : BigOutlinedButtonWithIcon(
+                                title: 'Logout',
+                                icon: Icons.logout,
+                                onPressed: () {
+                                  showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
+                                      surfaceTintColor: Colors.white,
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0))),
+                                      title: const Text("Are you sure?"),
+                                      content:
+                                          const Text("Do you want to logout?"),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () => nav.Get.back(),
+                                          child: const Text('Cancel',
+                                              style: TextStyle(
+                                                  color: Color(0xff7f91dd))),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            profileBloc.add(LogoutEvent());
+                                          },
+                                          child: const Text(
+                                            'OK',
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
+                                  );
+                                },
                               ),
-                            );
-                          },
-                        ),
                       ],
                     ),
                   ),

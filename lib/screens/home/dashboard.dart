@@ -17,7 +17,7 @@ class Dashboard extends StatelessWidget {
       screens: _buildScreens(),
       items: _navBarsItems(context),
       confineInSafeArea: true,
-      onItemSelected: (item){
+      onItemSelected: (item) {
         print(item);
       },
       // backgroundColor: const Color(0xffffffff),
@@ -54,7 +54,7 @@ class Dashboard extends StatelessWidget {
 }
 
 PersistentTabController _controller = PersistentTabController(initialIndex: 0);
- var  attendanceBloc;
+var attendanceBloc;
 List<Widget> _buildScreens() {
   return [
     const MyHomePage(),

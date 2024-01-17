@@ -36,9 +36,10 @@ class GetProfileImageErrorState extends ProfileState {
 }
 
 class LogoutLoadingState extends ProfileState {}
-class LogoutSuccessState extends ProfileState {}
-class LogoutErrorState extends ProfileState {}
 
+class LogoutSuccessState extends ProfileState {}
+
+class LogoutErrorState extends ProfileState {}
 
 class UpdateProfileLoadingState extends ProfileState {}
 

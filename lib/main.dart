@@ -18,10 +18,8 @@ import 'blocs/resetPasswordBloc/reset_password_bloc.dart';
 import 'blocs/signUpBloc/sign_up_bloc.dart';
 import 'db/firebaseApi.dart';
 
-
 final navigatorKey = GlobalKey<NavigatorState>();
- main() async {
-
+main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await FirebaseApi().initNotifications();
@@ -31,7 +29,6 @@ final navigatorKey = GlobalKey<NavigatorState>();
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,
   ));
-
 
   runApp(const MyApp());
 }
@@ -84,7 +81,6 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: const AnimatedProgressBar(),
-
       ),
     );
   }

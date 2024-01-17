@@ -17,22 +17,21 @@ class Attendance extends StatefulWidget {
 
 class _AttendanceState extends State<Attendance> {
   List<AttendanceElement>? attendance = [];
-  String ? role = 'user';
+  String? role = 'user';
 
   @override
   void initState() {
-      BlocProvider.of<AttendanceBloc>(context).add(GetCurrentAttendance());
+    BlocProvider.of<AttendanceBloc>(context).add(GetCurrentAttendance());
     getRole();
     super.initState();
   }
 
   void getRole() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-   setState(() {
-     role = prefs.getString('role');
-   });
+    setState(() {
+      role = prefs.getString('role');
+    });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +42,13 @@ class _AttendanceState extends State<Attendance> {
         elevation: 0,
         title: const Text("Today's Attendance"),
         actions: [
-          if(role == 'user')
-          IconButton(
-              tooltip: "My Attendance",
-              onPressed: () {
-                nav.Get.to(const MyAttendance());
-              },
-              icon: const Icon(Icons.history_toggle_off))
+          if (role == 'user')
+            IconButton(
+                tooltip: "My Attendance",
+                onPressed: () {
+                  nav.Get.to(const MyAttendance());
+                },
+                icon: const Icon(Icons.history_toggle_off))
         ],
       ),
       body: BlocConsumer<AttendanceBloc, AttendanceState>(

@@ -6,7 +6,7 @@ abstract class AttendanceEvent {}
 class GetCurrentAttendance extends AttendanceEvent {}
 
 class GetMyAttendance extends AttendanceEvent {
-  final String ? email;
+  final String? email;
 
   GetMyAttendance(this.email);
 }

@@ -82,8 +82,10 @@ class _RequestLeaveState extends State<RequestLeave> {
       viewFromDay = DateFormat('EEE, dd MMM yyyy').format(today1);
       viewToDay = DateFormat('EEE, dd MMM yyyy').format(today2);
       String formattedDate = DateFormat('MM/dd/yyyy').format(today1);
-      BlocProvider.of<LeaveBloc>(context).add(ToDateChangeEvent(toDate: formattedDate));
-      BlocProvider.of<LeaveBloc>(context).add(FromDateChangeEvent(fromDate: formattedDate));
+      BlocProvider.of<LeaveBloc>(context)
+          .add(ToDateChangeEvent(toDate: formattedDate));
+      BlocProvider.of<LeaveBloc>(context)
+          .add(FromDateChangeEvent(fromDate: formattedDate));
       print(formattedDate);
     });
     super.initState();
@@ -302,10 +304,10 @@ class _RequestLeaveState extends State<RequestLeave> {
                                     },
                                   ),
                                 ),
-
-                              if(state is ReasonEmptyState)
+                              if (state is ReasonEmptyState)
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8.0),
                                   child: Container(
                                     alignment: Alignment.center,
                                     width: double.infinity,
@@ -322,7 +324,6 @@ class _RequestLeaveState extends State<RequestLeave> {
                                     ),
                                   ),
                                 ),
-
                               const Divider(
                                 color: Colors.black12,
                                 thickness: 0.5,
@@ -385,9 +386,10 @@ class _RequestLeaveState extends State<RequestLeave> {
                                       isSameDay(day, today1),
                                   onDaySelected: _onFromSelected,
                                 ),
-                              if(state is FromDateEmptyState)
+                              if (state is FromDateEmptyState)
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8.0),
                                   child: Container(
                                     alignment: Alignment.center,
                                     width: double.infinity,
@@ -404,7 +406,6 @@ class _RequestLeaveState extends State<RequestLeave> {
                                     ),
                                   ),
                                 ),
-
                               const Divider(
                                 color: Colors.black12,
                                 thickness: 0.5,
@@ -467,9 +468,10 @@ class _RequestLeaveState extends State<RequestLeave> {
                                       isSameDay(day, today2),
                                   onDaySelected: _onToSelected,
                                 ),
-                              if(state is ToDateEmptyState)
+                              if (state is ToDateEmptyState)
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 8.0,right: 8.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8.0),
                                   child: Container(
                                     alignment: Alignment.center,
                                     width: double.infinity,
@@ -526,7 +528,7 @@ class _RequestLeaveState extends State<RequestLeave> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  "${days+1}",
+                                  "${days + 1}",
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontSize: 16,
@@ -544,7 +546,7 @@ class _RequestLeaveState extends State<RequestLeave> {
                         state is RequestLeaveLoadingState
                             ? const BigButtonLoading()
                             : BigButton(
-                                title: "Request leave for ${days+1} day",
+                                title: "Request leave for ${days + 1} day",
                                 onPressed: () {
                                   if (days < 0) {
                                     Fluttertoast.showToast(
@@ -552,10 +554,11 @@ class _RequestLeaveState extends State<RequestLeave> {
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.CENTER,
                                         timeInSecForIosWeb: 1,
-                                        backgroundColor: const Color(0x3F000000),
+                                        backgroundColor:
+                                            const Color(0x3F000000),
                                         textColor: Colors.white,
                                         fontSize: 16.0);
-                                  }  else {
+                                  } else {
                                     leaveBloc.add(RequestBtnPressEvent());
                                     setState(() {
                                       showType = false;
@@ -564,7 +567,6 @@ class _RequestLeaveState extends State<RequestLeave> {
                                       showTo = false;
                                     });
                                   }
-
                                 },
                               ),
                       ],

@@ -186,10 +186,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         print(response.statusCode);
         print(response.body);
         if (response.statusCode == 200) {
-
           var token = prefs.getString('fCMToken');
           prefs.clear();
-          prefs.setString('fCMToken',token!);
+          prefs.setString('fCMToken', token!);
 
           emit(LogoutSuccessState());
         } else {
@@ -199,7 +198,5 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(LogoutErrorState());
       }
     });
-
-
   }
 }

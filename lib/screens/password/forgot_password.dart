@@ -136,9 +136,9 @@ class ForgotPassword extends StatelessWidget {
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
-
-                    const SizedBox(height: 10,),
-
+                    const SizedBox(
+                      height: 10,
+                    ),
                     state is SendOtpLoadingState
                         ? const BigButtonLoading()
                         : BigButton(

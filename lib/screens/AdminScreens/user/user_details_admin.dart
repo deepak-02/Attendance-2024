@@ -11,9 +11,7 @@ import '../../../widgets/user_details.dart';
 import '../../home/Attendance/my_attendance.dart';
 
 class UserDetailsAdmin extends StatefulWidget {
-
   final Attendance details;
-
 
   const UserDetailsAdmin({super.key, required this.details});
 
@@ -37,9 +35,7 @@ class _UserDetailsAdminState extends State<UserDetailsAdmin> {
             Get.back();
           },
         ),
-        title: Text(
-          "Profile Details"
-        ),
+        title: Text("Profile Details"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -69,23 +65,23 @@ class _UserDetailsAdminState extends State<UserDetailsAdmin> {
                       ),
                       child: widget.details.image == ''
                           ? const CircleAvatar(
-                        child: Icon(
-                          Icons.person,
-                          color: Colors.white,
-                        ),
-                      )
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.white,
+                              ),
+                            )
                           : GestureDetector(
-                        onTap: () {
-                          Get.to(FullScreenImagePage(
-                            image: widget.details.image!,
-                            title: 'Profile Photo',
-                          ));
-                        },
-                        child: CircleAvatar(
-                          backgroundImage:
-                          MemoryImage(base64Decode(widget.details.image!)),
-                        ),
-                      ),
+                              onTap: () {
+                                Get.to(FullScreenImagePage(
+                                  image: widget.details.image!,
+                                  title: 'Profile Photo',
+                                ));
+                              },
+                              child: CircleAvatar(
+                                backgroundImage: MemoryImage(
+                                    base64Decode(widget.details.image!)),
+                              ),
+                            ),
                     ),
                     Text(
                       "${widget.details.name}",
@@ -127,23 +123,21 @@ class _UserDetailsAdminState extends State<UserDetailsAdmin> {
                 ),
                 Text(
                   "Account Created on: ${formatTimestamp(widget.details.createdAt!)}",
-                  style: const TextStyle(
-                      fontSize: 12, color: Colors.black26),
+                  style: const TextStyle(fontSize: 12, color: Colors.black26),
                 ),
                 Text(
                   "Account Updated on: ${formatTimestamp(widget.details.updatedAt!)}",
-                  style: const TextStyle(
-                      fontSize: 12, color: Colors.black26),
+                  style: const TextStyle(fontSize: 12, color: Colors.black26),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-
-
                 BigButton(
                   title: 'View Attendance',
                   onPressed: () {
-                    Get.to(MyAttendance(email: widget.details.email,));
+                    Get.to(MyAttendance(
+                      email: widget.details.email,
+                    ));
                   },
                 ),
               ],
@@ -160,9 +154,8 @@ class _UserDetailsAdminState extends State<UserDetailsAdmin> {
     } else {
       DateTime dateTime = DateTime.parse(timestamp).toLocal();
       String formattedDateTime =
-      DateFormat('MMM dd yyyy, hh:mm a').format(dateTime);
+          DateFormat('MMM dd yyyy, hh:mm a').format(dateTime);
       return formattedDateTime;
     }
   }
-
 }

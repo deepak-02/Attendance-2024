@@ -132,7 +132,6 @@ class BigOutlinedButtonWithIcon extends StatelessWidget {
   }
 }
 
-
 class BigOutlinedButtonLoading extends StatelessWidget {
   const BigOutlinedButtonLoading({super.key});
 
@@ -142,19 +141,20 @@ class BigOutlinedButtonLoading extends StatelessWidget {
       width: double.infinity,
       height: 48,
       decoration: ShapeDecoration(
-          color: Color(0x00C14CF8),
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              width: 1.5,
-              strokeAlign: BorderSide.strokeAlignOutside,
-              color: Theme.of(context).primaryColor,
-            ),
-            borderRadius: BorderRadius.circular(14),
+        color: Color(0x00C14CF8),
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            width: 1.5,
+            strokeAlign: BorderSide.strokeAlignOutside,
+            color: Theme.of(context).primaryColor,
           ),
+          borderRadius: BorderRadius.circular(14),
+        ),
       ),
       duration: const Duration(milliseconds: 300),
-      child:  Center(
-        child: CircularProgressIndicator(color: Theme.of(context).primaryColor, strokeWidth: 3),
+      child: Center(
+        child: CircularProgressIndicator(
+            color: Theme.of(context).primaryColor, strokeWidth: 3),
       ),
     );
   }

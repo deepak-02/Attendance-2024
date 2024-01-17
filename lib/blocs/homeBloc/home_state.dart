@@ -6,8 +6,11 @@ abstract class HomeState {}
 class HomeInitial extends HomeState {}
 
 class FCMTokenLoading extends HomeState {}
+
 class FCMTokenSuccess extends HomeState {}
+
 class FCMTokenError extends HomeState {}
+
 class AttendanceStatusLoading extends HomeState {}
 
 class AttendanceStatusSuccess extends HomeState {

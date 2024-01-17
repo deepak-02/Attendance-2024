@@ -33,7 +33,7 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         Get.offAll(
-            email == null || email == "" ? const LoginPage() : const Dashboard(),
+          email == null || email == "" ? const LoginPage() : const Dashboard(),
           transition: Transition.zoom,
           duration: const Duration(milliseconds: 1000),
         );
@@ -41,10 +41,8 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
     });
 
     _animationController.forward(); // Start the animation
-
-
-
   }
+
   getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     email = prefs.getString('email');
@@ -76,7 +74,9 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
                   ),
                 ),
               ),
-              const SizedBox(height: 100,),
+              const SizedBox(
+                height: 100,
+              ),
               const Text(
                 'Welcome to Attendance App',
                 textAlign: TextAlign.center,
@@ -92,22 +92,27 @@ class _AnimatedProgressBarState extends State<AnimatedProgressBar>
               ),
 
               // Spacer(),
-              const SizedBox(height: 100,),
+              const SizedBox(
+                height: 100,
+              ),
               Padding(
-                padding: const EdgeInsets.only(left: 16,right: 16),
+                padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Container(
                   margin: const EdgeInsets.symmetric(vertical: 20),
                   width: MediaQuery.of(context).size.width,
                   height: 8,
                   child: LinearProgressIndicator(
                     value: _animationController.value,
-                    valueColor: const AlwaysStoppedAnimation<Color>(Color(0xff843fc9)),
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(Color(0xff843fc9)),
                     backgroundColor: const Color(0xffd9d9d9),
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ),

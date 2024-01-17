@@ -8,7 +8,8 @@ class FullScreenImagePage extends StatelessWidget {
   final String image;
   final String title;
 
-  const FullScreenImagePage({super.key, required this.image, required this.title});
+  const FullScreenImagePage(
+      {super.key, required this.image, required this.title});
 
   @override
   Widget build(BuildContext context) {

@@ -99,14 +99,15 @@ class _EditProfileState extends State<EditProfile> {
             },
           ),
           actions: [
-
             PopupMenuButton<String>(
               surfaceTintColor: Colors.white,
               shadowColor: Colors.white,
               color: Colors.white,
               onSelected: (value) {
                 if (value == 'resetPassword') {
-                  nav.Get.to(const ResetPasswordPage(page: 'profile',));
+                  nav.Get.to(const ResetPasswordPage(
+                    page: 'profile',
+                  ));
                   // Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPasswordPage()));
                 }
                 // else if (value == 'about') {
@@ -125,7 +126,6 @@ class _EditProfileState extends State<EditProfile> {
                 // ),
               ],
             ),
-
           ],
         ),
         body: BlocConsumer<ProfileBloc, ProfileState>(

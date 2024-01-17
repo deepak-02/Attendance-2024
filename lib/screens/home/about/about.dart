@@ -70,7 +70,8 @@ class _AboutState extends State<About> {
                             child: Container(
                               decoration: BoxDecoration(
                                 image: const DecorationImage(
-                                  image: AssetImage('assets/images/ic_launcher.png'),
+                                  image: AssetImage(
+                                      'assets/images/ic_launcher.png'),
                                   fit: BoxFit.fill,
                                 ),
                                 borderRadius: BorderRadius.circular(60.0),
@@ -100,7 +101,7 @@ class _AboutState extends State<About> {
                               duration: const Duration(milliseconds: 500),
                             );
                           },
-                          child:  Text(
+                          child: Text(
                             'MORE',
                             style: TextStyle(
                                 decoration: TextDecoration.underline,

@@ -27,9 +27,7 @@ class UsersProfile extends StatelessWidget {
             Get.back();
           },
         ),
-        title: const Text(
-            "Profile Details"
-        ),
+        title: const Text("Profile Details"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -58,23 +56,23 @@ class UsersProfile extends StatelessWidget {
                     ),
                     child: user.image == ''
                         ? const CircleAvatar(
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.white,
-                      ),
-                    )
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                          )
                         : GestureDetector(
-                      onTap: () {
-                        Get.to(FullScreenImagePage(
-                          image: user.image!,
-                          title: '${user.name}',
-                        ));
-                      },
-                      child: CircleAvatar(
-                        backgroundImage:
-                        MemoryImage(base64Decode(user.image!)),
-                      ),
-                    ),
+                            onTap: () {
+                              Get.to(FullScreenImagePage(
+                                image: user.image!,
+                                title: '${user.name}',
+                              ));
+                            },
+                            child: CircleAvatar(
+                              backgroundImage:
+                                  MemoryImage(base64Decode(user.image!)),
+                            ),
+                          ),
                   ),
                   Text(
                     "${user.name}",
@@ -103,7 +101,9 @@ class UsersProfile extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               UserDetails(
                 title: 'Address',
                 content: "${user.address}",
@@ -123,18 +123,15 @@ class UsersProfile extends StatelessWidget {
               const Spacer(),
               Text(
                 "Account Created on: ${formatTimestamp(user.createdAt!)}",
-                style: const TextStyle(
-                    fontSize: 12, color: Colors.black26),
+                style: const TextStyle(fontSize: 12, color: Colors.black26),
               ),
               Text(
                 "Account Updated on: ${formatTimestamp(user.updatedAt!)}",
-                style: const TextStyle(
-                    fontSize: 12, color: Colors.black26),
+                style: const TextStyle(fontSize: 12, color: Colors.black26),
               ),
               const SizedBox(
                 height: 20,
               ),
-
             ],
           ),
         ),
@@ -148,7 +145,7 @@ class UsersProfile extends StatelessWidget {
     } else {
       DateTime dateTime = DateTime.parse(timestamp).toLocal();
       String formattedDateTime =
-      DateFormat('MMM dd yyyy, hh:mm a').format(dateTime);
+          DateFormat('MMM dd yyyy, hh:mm a').format(dateTime);
       return formattedDateTime;
     }
   }

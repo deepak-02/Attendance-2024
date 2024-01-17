@@ -14,6 +14,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:slidable_button/slidable_button.dart';
 
 import '../../../blocs/homeBloc/home_bloc.dart';
+import '../../AdminScreens/add_new_admin.dart';
 import '../../AdminScreens/attendance/list_attendance_admin.dart';
 import '../../AdminScreens/leave/leave_requests_admin.dart';
 import '../../AdminScreens/user/all_users.dart';
@@ -33,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var image = '';
   String status = '';
 
-  String ? role = 'user';
+  String? role = 'user';
 
   Future<void> scanQRIn() async {
     String barcodeScanRes;
@@ -447,9 +448,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 10,
                     ),
 
-
-
-
                     // if(tasks)
                     // TextButton(
                     //   onPressed: () {  },
@@ -469,40 +467,39 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 10,
                     ),
 
-                    if(role == 'admin')
+                    if (role == 'admin')
                       BigButton(
                         title: "Users",
-                        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.inversePrimary,
                         onPressed: () {
                           nav.Get.to(const AllUsers());
                         },
                       ),
-                    if(role == 'admin')
-                    const SizedBox(
-                      height: 16,
-                    ),
+                    if (role == 'admin')
+                      const SizedBox(
+                        height: 16,
+                      ),
 
-
-                    if(role == 'admin')
-                    BigButton(
-                      title: "Attendances",
-
-                      onPressed: () {
-                        nav.Get.to(const ListAttendanceAdmin());
-                      },
-                    )
+                    if (role == 'admin')
+                      BigButton(
+                        title: "Attendances",
+                        onPressed: () {
+                          nav.Get.to(const ListAttendanceAdmin());
+                        },
+                      )
                     else
-                    BigButton(
-                      title: "Make a leave request",
-                      onPressed: () {
-                        nav.Get.to(const RequestLeave());
-                      },
-                    ),
+                      BigButton(
+                        title: "Make a leave request",
+                        onPressed: () {
+                          nav.Get.to(const RequestLeave());
+                        },
+                      ),
                     const SizedBox(
                       height: 16,
                     ),
 
-                    if(role == 'admin')
+                    if (role == 'admin')
                       BigOutlinedButton(
                         title: "Leave Requests",
                         onPressed: () {
@@ -510,17 +507,27 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                       )
                     else
-                    BigOutlinedButton(
-                      title: "View your leave requests",
-                      onPressed: () {
-                        nav.Get.to(const LeaveRequests());
-                      },
-                    ),
+                      BigOutlinedButton(
+                        title: "View your leave requests",
+                        onPressed: () {
+                          nav.Get.to(const LeaveRequests());
+                        },
+                      ),
 
-
-
-
-
+                    if (email == "ptfattendanceapp@gmail.com")
+                      TextButton(
+                        onPressed: () {
+                          nav.Get.to(const AddNewAdmin());
+                        },
+                        child: Text(
+                          "Register New Admin",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontStyle: FontStyle.italic,
+                              decoration: TextDecoration.underline,
+                              decorationColor: Theme.of(context).primaryColor),
+                        ),
+                      ),
                   ],
                 ),
               ),

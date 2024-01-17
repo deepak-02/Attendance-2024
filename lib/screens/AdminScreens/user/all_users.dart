@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../blocs/adminBloc/admin_bloc.dart';
+import '../../../db/admin/adminUsersModel.dart';
 import '../../../widgets/big_button.dart';
 import '../../../widgets/full_screen_image.dart';
 import '../../../widgets/input_field.dart';
@@ -23,6 +24,10 @@ class _AllUsersState extends State<AllUsers> {
   bool btn2 = false; // Initialize with the default state
   String selectedOption = 'All'; // Default selected radio button
   String selectedBatch = "";
+
+  TextEditingController searchController = TextEditingController();
+  List<AdminUsersModel> filteredUsers = [];
+  // List<AdminUsersModel> allUsers = [];
 
   @override
   void initState() {
@@ -60,7 +65,14 @@ class _AllUsersState extends State<AllUsers> {
         ],
       ),
       body: BlocConsumer<AdminBloc, AdminState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is GetAllUsersSuccess) {
+            setState(() {
+              filteredUsers = state.users;
+              // allUsers = state.users;
+            });
+          }
+        },
         builder: (context, state) {
           if (state is GetAllUsersLoading) {
             return const Center(
@@ -84,72 +96,92 @@ class _AllUsersState extends State<AllUsers> {
               child: Text(state.error),
             );
           } else if (state is GetAllUsersSuccess) {
-            return ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: state.users.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  var item = state.users[index];
-                  return ListTile(
-                    onTap: () {
-                      Get.to(UsersProfile(user: item,));
-                    },
-                    leading: item.image == ''
-                        ? const CircleAvatar(
-                            radius: 30,
-                            child: Icon(
-                              Icons.person,
-                              color: Colors.white,
-                            ),
-                          )
-                        : GestureDetector(
-                            onTap: () {
-                              Get.to(FullScreenImagePage(
-                                image: item.image!,
-                                title: '${item.name}',
-                              ));
-                            },
-                            child: CircleAvatar(
-                              radius: 30,
-                              backgroundImage:
-                                  MemoryImage(base64Decode(item.image!)),
-                            ),
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InputField(
+                    controller: searchController,
+                    labelText: 'Search by name, phone, or email',
+                    hintText: 'Search by name, phone, or email',
+                    prefixIcon: Icon(Icons.search),
+                    onChanged: (query) => _filterUsers(query, state),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: filteredUsers.length,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        var item = filteredUsers[index];
+                        return ListTile(
+                          onTap: () {
+                            Get.to(UsersProfile(
+                              user: item,
+                            ));
+                          },
+                          leading: item.image == ''
+                              ? const CircleAvatar(
+                                  radius: 30,
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : GestureDetector(
+                                  onTap: () {
+                                    Get.to(FullScreenImagePage(
+                                      image: item.image!,
+                                      title: '${item.name}',
+                                    ));
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 30,
+                                    backgroundImage:
+                                        MemoryImage(base64Decode(item.image!)),
+                                  ),
+                                ),
+                          title: Text(
+                            "${item.name}",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).primaryColor),
                           ),
-                    title: Text(
-                      "${item.name}",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${item.email}',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w200,
-                              color: Theme.of(context).colorScheme.secondary),
-                        ),
-                        Text(
-                          '${item.batch}',
-                          style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black),
-                        ),
-                        Text(
-                          '${item.designation}',
-                          style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black87),
-                        ),
-                      ],
-                    ),
-                  );
-                });
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${item.email}',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w200,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
+                              ),
+                              Text(
+                                '${item.batch}',
+                                style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
+                              ),
+                              Text(
+                                '${item.designation}',
+                                style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black87),
+                              ),
+                            ],
+                          ),
+                        );
+                      }),
+                ),
+              ],
+            );
           } else {
             return const Center(
               child: Text("Something Wrong!"),
@@ -275,5 +307,23 @@ class _AllUsersState extends State<AllUsers> {
         );
       },
     );
+  }
+
+  void _filterUsers(String query, GetAllUsersSuccess state) {
+    // Function to filter users based on the search query
+    List<AdminUsersModel> filteredList = [];
+    for (var user in state.users) {
+      // Check if the user matches the search query (you can customize the conditions)
+      if (user.name!.toLowerCase().contains(query.toLowerCase()) ||
+          user.email!.toLowerCase().contains(query.toLowerCase()) ||
+          user.designation!.toLowerCase().contains(query.toLowerCase()) ||
+          user.phoneNumber!.toLowerCase().contains(query.toLowerCase())) {
+        filteredList.add(user);
+      }
+    }
+
+    setState(() {
+      filteredUsers = filteredList; // Update the filtered users list
+    });
   }
 }

@@ -56,13 +56,14 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
             setState(() {
               leaveRequests = state.leaveRequests;
             });
-          } else if(state is LeaveStatusChangeSuccess || state is LeaveStatusChangeError) {
+          } else if (state is LeaveStatusChangeSuccess ||
+              state is LeaveStatusChangeError) {
             setState(() {
-               btn1 = true;
-               btn2 = false;
-               btn3 = false;
-               btn4 = false;
-               leaveBloc.add(GetAdminLeaveRequestsEvent(type: 'all'));
+              btn1 = true;
+              btn2 = false;
+              btn3 = false;
+              btn4 = false;
+              leaveBloc.add(GetAdminLeaveRequestsEvent(type: 'all'));
             });
             if (state is LeaveStatusChangeError) {
               Fluttertoast.showToast(
@@ -77,7 +78,8 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
           }
         },
         builder: (context, state) {
-          if (state is GetAdminLeaveRequestsNotFound || state is LeaveStatusChangeError ||
+          if (state is GetAdminLeaveRequestsNotFound ||
+              state is LeaveStatusChangeError ||
               state is GetAdminLeaveRequestsSuccess) {
             return SafeArea(
               child: Padding(
@@ -141,7 +143,7 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                     )
-                                  :  Padding(
+                                  : Padding(
                                       padding: EdgeInsets.only(left: 10),
                                       child: Text(
                                         "All",
@@ -181,12 +183,11 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                     )
-                                  :  Text(
+                                  : Text(
                                       "Awaiting",
                                       style: TextStyle(
                                         fontSize: 16,
-                                        color: Color(
-                                            0xFFDAAD0C),
+                                        color: Color(0xFFDAAD0C),
                                       ),
                                     ),
                             ),
@@ -219,7 +220,7 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                     )
-                                  :  Text(
+                                  : Text(
                                       "Approved",
                                       style: TextStyle(
                                         fontSize: 16,
@@ -256,7 +257,7 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                     )
-                                  :  Padding(
+                                  : Padding(
                                       padding: EdgeInsets.only(right: 10),
                                       child: Text(
                                         "Rejected",
@@ -413,7 +414,7 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                                       color: Colors.black,
                                                       fontSize: 14,
                                                       fontWeight:
-                                                      FontWeight.w600,
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
                                                   RichText(
@@ -440,7 +441,6 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                                       ],
                                                     ),
                                                   ),
-
                                                   RichText(
                                                     text: TextSpan(
                                                       text: 'Request Date: ',
@@ -465,7 +465,6 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                                       ],
                                                     ),
                                                   ),
-
                                                   RichText(
                                                     text: TextSpan(
                                                       text: 'Requested Until: ',
@@ -490,7 +489,6 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                                       ],
                                                     ),
                                                   ),
-
                                                   RichText(
                                                     text: TextSpan(
                                                       text: 'Reason: ',
@@ -516,7 +514,6 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                                       ],
                                                     ),
                                                   ),
-
                                                   if (leave
                                                           .approvedOrRejectedOn !=
                                                       "")
@@ -550,48 +547,72 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                                         ],
                                                       ),
                                                     ),
-
-
-                                                  SizedBox(height: 16,),
+                                                  SizedBox(
+                                                    height: 16,
+                                                  ),
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
                                                     children: [
                                                       ElevatedButton(
-                                                          onPressed: (){
-                                                            leaveBloc.add(LeaveStatusChangeEvent(email: "${leave.email}", id: "${leave.leaveId}", status: "rejected"));
-                                                            Navigator.pop(context);
-                                                            },
-                                                          child: Text(
-                                                              "Reject"
-                                                          ),
-                                                        style: ElevatedButton.styleFrom(
-                                                          backgroundColor: Colors.red,
-                                                          foregroundColor: Colors.white,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(5.0),
+                                                        onPressed: () {
+                                                          leaveBloc.add(LeaveStatusChangeEvent(
+                                                              email:
+                                                                  "${leave.email}",
+                                                              id:
+                                                                  "${leave.leaveId}",
+                                                              status:
+                                                                  "rejected"));
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Text("Reject"),
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                          foregroundColor:
+                                                              Colors.white,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5.0),
                                                           ),
                                                         ),
                                                       ),
                                                       ElevatedButton(
-                                                        onPressed: (){
-                                                          leaveBloc.add(LeaveStatusChangeEvent(email: "${leave.email}", id: "${leave.leaveId}", status: "approved"));
-                                                          Navigator.pop(context);
+                                                        onPressed: () {
+                                                          leaveBloc.add(LeaveStatusChangeEvent(
+                                                              email:
+                                                                  "${leave.email}",
+                                                              id:
+                                                                  "${leave.leaveId}",
+                                                              status:
+                                                                  "approved"));
+                                                          Navigator.pop(
+                                                              context);
                                                         },
-                                                        child: Text(
-                                                            "Approve"
-                                                        ),
-                                                        style: ElevatedButton.styleFrom(
-                                                          backgroundColor: Colors.green,
-                                                          foregroundColor: Colors.white,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(5.0),
+                                                        child: Text("Approve"),
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          backgroundColor:
+                                                              Colors.green,
+                                                          foregroundColor:
+                                                              Colors.white,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5.0),
                                                           ),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-
-
                                                 ],
                                               ),
                                               shape: OutlineInputBorder(
@@ -643,7 +664,8 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                   ),
                                   title: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
@@ -653,7 +675,8 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                         ),
-                                      ),Text(
+                                      ),
+                                      Text(
                                         "${leave.email}",
                                         style: const TextStyle(
                                           color: Colors.black38,

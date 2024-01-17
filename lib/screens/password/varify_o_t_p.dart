@@ -159,7 +159,9 @@ class _VerifyOTPState extends State<VerifyOTP> {
                         ),
                       ),
 
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
 
                     state is VerifyOtpLoadingState
                         ? const BigButtonLoading()

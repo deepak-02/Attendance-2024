@@ -11,7 +11,7 @@ import '../../widgets/big_button.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({super.key, this.page});
-final String ? page;
+  final String? page;
   @override
   _ResetPasswordPageState createState() => _ResetPasswordPageState();
 }
@@ -44,15 +44,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   transition: nav.Transition.rightToLeft,
                   duration: const Duration(milliseconds: 800),
                 );
-              }  else{
+              } else {
                 nav.Get.offAll(
                   const LoginPage(),
                   transition: nav.Transition.rightToLeft,
                   duration: const Duration(milliseconds: 800),
                 );
               }
-
-
             } else if (state is ResetPasswordErrorState) {
               Fluttertoast.showToast(
                   msg: state.error,
@@ -193,7 +191,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
 
                     state is ResetPasswordLoadingState
                         ? const BigButtonLoading()

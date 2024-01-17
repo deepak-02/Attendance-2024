@@ -25,8 +25,7 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
         String batch = prefs.getString('batch')!;
 
         DateTime now = DateTime.now();
-        String formattedDate =
-            DateFormat('M/d/yyyy').format(now);
+        String formattedDate = DateFormat('M/d/yyyy').format(now);
 
         final response = await http.post(
           Uri.parse('${api}attendance/getByDate'),
@@ -39,9 +38,9 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
           List<AttendanceElement>? attendance = data.attendances;
           if (attendance!.isEmpty) {
             emit(GetCurrentAttendanceEmpty());
-          } else if(response.statusCode == 404){
+          } else if (response.statusCode == 404) {
             emit(GetCurrentAttendanceEmpty());
-          }else {
+          } else {
             emit(GetCurrentAttendanceSuccess(attendance: attendance));
           }
         } else {
@@ -73,12 +72,12 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
             } else {
               emit(MyAttendanceSuccess(attendance: attendance));
             }
-          }else if(response.statusCode == 404){
+          } else if (response.statusCode == 404) {
             emit(MyAttendanceEmpty());
           } else {
             emit(MyAttendanceError(message: response.body));
           }
-        }  else{
+        } else {
           final response = await http.get(
             Uri.parse('${api}attendance/get/${event.email}'),
             headers: {"content-type": "application/json"},
@@ -91,16 +90,12 @@ class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
             } else {
               emit(MyAttendanceSuccess(attendance: attendance));
             }
-          }else if(response.statusCode == 404){
+          } else if (response.statusCode == 404) {
             emit(MyAttendanceEmpty());
           } else {
             emit(MyAttendanceError(message: response.body));
           }
         }
-
-
-
-
       } catch (e) {
         print(e);
         emit(MyAttendanceError(message: e.toString()));

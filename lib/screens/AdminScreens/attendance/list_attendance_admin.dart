@@ -19,9 +19,6 @@ class ListAttendanceAdmin extends StatefulWidget {
 }
 
 class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
-
-
-
   bool btn1 = false; // Initialize with the default state
   bool btn2 = false; // Initialize with the default state
   String selectedOption = 'All'; // Default selected radio button
@@ -52,7 +49,8 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
 
   @override
   void initState() {
-    BlocProvider.of<AdminBloc>(context).add(GetAdminAttendanceEvent(filter: const {}));
+    BlocProvider.of<AdminBloc>(context)
+        .add(GetAdminAttendanceEvent(filter: const {}));
     for (int i = 2022; i <= 2050; i++) {
       _yearList.add(i.toString());
     }
@@ -67,7 +65,6 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
     });
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -103,25 +100,24 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
             return Center(
               child: CircularProgressIndicator(),
             );
-          }  else if(state is GetAdminAttendanceNotFound) {
+          } else if (state is GetAdminAttendanceNotFound) {
             return Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    // width: 100,
-                      child:
-                      Lottie.asset('assets/lottie/noData.json')),
+                      // width: 100,
+                      child: Lottie.asset('assets/lottie/noData.json')),
                   const Text("No Details Found!"),
                 ],
               ),
             );
-          } else if(state is GetAdminAttendanceError) {
+          } else if (state is GetAdminAttendanceError) {
             return Center(
               child: Text(state.error),
             );
-          }else if(state is GetAdminAttendanceSuccess){
+          } else if (state is GetAdminAttendanceSuccess) {
             return ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 itemCount: attendances!.length,
@@ -141,8 +137,8 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                           },
                           transitionBuilder: (context, a1, a2, widget) {
                             return ScaleTransition(
-                              scale:
-                              Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+                              scale: Tween<double>(begin: 0.5, end: 1.0)
+                                  .animate(a1),
                               child: AlertDialog(
                                 surfaceTintColor: Colors.white,
                                 backgroundColor: Colors.white,
@@ -191,8 +187,8 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                                             style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold,
-                                              color:
-                                              Theme.of(context).primaryColor,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
                                             ),
                                           ),
                                         ],
@@ -263,7 +259,9 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                                         InkWell(
                                           onTap: () {
                                             // Get to profile page with the item details
-                                            nav.Get.to(UserDetailsAdmin(details: item,));
+                                            nav.Get.to(UserDetailsAdmin(
+                                              details: item,
+                                            ));
                                           },
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(5)),
@@ -271,7 +269,7 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                                             padding: const EdgeInsets.all(5),
                                             child: Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                                  MainAxisAlignment.end,
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 Text(
@@ -283,7 +281,8 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                                                   ),
                                                 ),
                                                 Icon(
-                                                  Icons.arrow_forward_ios_rounded,
+                                                  Icons
+                                                      .arrow_forward_ios_rounded,
                                                   color: Theme.of(context)
                                                       .primaryColor,
                                                   size: 20,
@@ -303,28 +302,27 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                             );
                           });
                     },
-                    leading:
-                    item.image == '' ?
-                    const CircleAvatar(
-                      radius: 30,
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.white,
-                      ),
-                    )
+                    leading: item.image == ''
+                        ? const CircleAvatar(
+                            radius: 30,
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                          )
                         : GestureDetector(
-                      onTap: () {
-                        nav.Get.to(FullScreenImagePage(
-                          image: item.image!,
-                          title: '${item.name}',
-                        ));
-                      },
-                      child: CircleAvatar(
-                        radius: 30,
-                        backgroundImage:
-                        MemoryImage(base64Decode(item.image!)),
-                      ),
-                    ),
+                            onTap: () {
+                              nav.Get.to(FullScreenImagePage(
+                                image: item.image!,
+                                title: '${item.name}',
+                              ));
+                            },
+                            child: CircleAvatar(
+                              radius: 30,
+                              backgroundImage:
+                                  MemoryImage(base64Decode(item.image!)),
+                            ),
+                          ),
                     title: Text("${item.name}"),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -335,7 +333,10 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                             const Text('In Time: '),
                             Text(
                               '${item.attendanceIn!.time}',
-                              style: TextStyle(color: item.attendanceIn!.late  == true ? Colors.red : Colors.black),
+                              style: TextStyle(
+                                  color: item.attendanceIn!.late == true
+                                      ? Colors.red
+                                      : Colors.black),
                             ),
                           ],
                         ),
@@ -344,17 +345,15 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                     ),
                   );
                 });
-          }else{
+          } else {
             return const Center(
               child: Text("Something Wrong!"),
             );
           }
-
         },
       ),
     );
   }
-
 
   bottomSheet() {
     showModalBottomSheet(
@@ -499,7 +498,8 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                           ),
                           child: DropdownButton<String>(
                             underline: Container(),
-                            items: ['All','Batch 1', 'Batch 2', 'Batch 3'].map((e) {
+                            items: ['All', 'Batch 1', 'Batch 2', 'Batch 3']
+                                .map((e) {
                               return DropdownMenuItem<String>(
                                   value: e, child: Text(e));
                             }).toList(),
@@ -520,22 +520,24 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                   BigButton(
                     title: "Apply Filter",
                     onPressed: () {
-                      if (selectedOption == "Custom"){
+                      if (selectedOption == "Custom") {
                         if (selectedBatch == 'All') {
-                          BlocProvider.of<AdminBloc>(context).add(GetAdminAttendanceEvent(filter: {
-                            "month": "${selectedMonthIndex+1}",
+                          BlocProvider.of<AdminBloc>(context).add(
+                              GetAdminAttendanceEvent(filter: {
+                            "month": "${selectedMonthIndex + 1}",
                             "year": selectedYear
                           }));
-                        }  else{
-                          BlocProvider.of<AdminBloc>(context).add(GetAdminAttendanceEvent(filter: {
-                            "month": "${selectedMonthIndex+1}",
+                        } else {
+                          BlocProvider.of<AdminBloc>(context)
+                              .add(GetAdminAttendanceEvent(filter: {
+                            "month": "${selectedMonthIndex + 1}",
                             "year": selectedYear,
                             "batch": selectedBatch
                           }));
                         }
-
-                      } else{
-                        BlocProvider.of<AdminBloc>(context).add(GetAdminAttendanceEvent(filter: const {}));
+                      } else {
+                        BlocProvider.of<AdminBloc>(context)
+                            .add(GetAdminAttendanceEvent(filter: const {}));
                       }
                       Navigator.pop(context);
                     },

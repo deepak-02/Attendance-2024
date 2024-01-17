@@ -92,7 +92,7 @@ class _MoreState extends State<More> {
                                 horizontalInside:
                                     BorderSide(width: 1, color: Colors.black54),
                                 verticalInside: BorderSide(width: 1)),
-                            columns:  <DataColumn>[
+                            columns: <DataColumn>[
                               DataColumn(
                                 label: Text(
                                   'Fields',
@@ -178,7 +178,7 @@ class _MoreState extends State<More> {
                         ),
                       ),
                     ),
-                     Text(
+                    Text(
                       '©PTF',
                       textAlign: TextAlign.center,
                       style: TextStyle(
