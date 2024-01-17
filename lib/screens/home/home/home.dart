@@ -514,7 +514,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                       ),
 
-                    if (email == "ptfattendanceapp@gmail.com")
+                    if (email == "ptfattendance@gmail.com" || email == "ptfattendanceapp@gmail.com")
                       TextButton(
                         onPressed: () {
                           nav.Get.to(const AddNewAdmin());
