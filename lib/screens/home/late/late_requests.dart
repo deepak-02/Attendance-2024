@@ -1,6 +1,7 @@
 import 'package:attendance/db/late/getlateModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' as nav;
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
@@ -78,6 +79,17 @@ class _LateRequestsState extends State<LateRequests> {
             setState(() {
               lateRequests = state.lateRequests;
             });
+          } else if(state is ChangeLateStatusSuccessState){
+            getData();
+          } else if(state is ChangeLateStatusErrorState){
+            Fluttertoast.showToast(
+                msg: state.error,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: const Color(0x3F000000),
+                textColor: Colors.white,
+                fontSize: 16.0);
           }
         },
         builder: (context, state) {
@@ -137,7 +149,7 @@ class _LateRequestsState extends State<LateRequests> {
                                   ? Container(
                                       // width: 60,
                                       padding:
-                                          EdgeInsets.only(left: 10, right: 10),
+                                          const EdgeInsets.only(left: 10, right: 10),
                                       decoration: ShapeDecoration(
                                         color: Colors.white,
                                         shape: RoundedRectangleBorder(
@@ -185,7 +197,7 @@ class _LateRequestsState extends State<LateRequests> {
                                   ? Container(
                                       // width: 80,
                                       padding:
-                                          EdgeInsets.only(left: 10, right: 10),
+                                          const EdgeInsets.only(left: 10, right: 10),
                                       decoration: ShapeDecoration(
                                         color: Colors.white,
                                         shape: RoundedRectangleBorder(
@@ -248,7 +260,7 @@ class _LateRequestsState extends State<LateRequests> {
                                   ? Container(
                                       // width: 100,
                                       padding:
-                                          EdgeInsets.only(left: 10, right: 10),
+                                          const EdgeInsets.only(left: 10, right: 10),
                                       decoration: ShapeDecoration(
                                         color: Colors.white,
                                         shape: RoundedRectangleBorder(
@@ -311,7 +323,7 @@ class _LateRequestsState extends State<LateRequests> {
                                   ? Container(
                                       // width: 100,
                                       padding:
-                                          EdgeInsets.only(left: 10, right: 10),
+                                          const EdgeInsets.only(left: 10, right: 10),
                                       decoration: ShapeDecoration(
                                         color: Colors.white,
                                         shape: RoundedRectangleBorder(
@@ -422,12 +434,10 @@ class _LateRequestsState extends State<LateRequests> {
                                             contentPadding:
                                                 const EdgeInsets.all(15),
                                             title: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  "${late.email}",
+                                                  late.requestMethod=='app'?'user' :'admin',
                                                   style: TextStyle(
                                                     color: Theme.of(context)
                                                         .colorScheme
@@ -441,45 +451,45 @@ class _LateRequestsState extends State<LateRequests> {
                                                   height: 30,
                                                   decoration: ShapeDecoration(
                                                     color: late.requestStatus ==
-                                                            'rejected'
+                                                        'rejected'
                                                         ? const Color(
-                                                            0x3FFF3737)
+                                                        0x3FFF3737)
                                                         : late.requestStatus ==
-                                                                'approved'
-                                                            ? const Color(
-                                                                0x7037FF87)
-                                                            : const Color(
-                                                                0x3FFFD337),
+                                                        'approved'
+                                                        ? const Color(
+                                                        0x7037FF87)
+                                                        : const Color(
+                                                        0x3FFFD337),
                                                     shape:
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8)),
+                                                    RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            8)),
                                                   ),
                                                   alignment: Alignment.center,
                                                   padding:
-                                                      const EdgeInsets.all(2),
+                                                  const EdgeInsets.all(2),
                                                   child: Text(
                                                     late.requestStatus ==
-                                                            'rejected'
+                                                        'rejected'
                                                         ? 'Rejected'
                                                         : late.requestStatus ==
-                                                                'approved'
-                                                            ? 'Approved'
-                                                            : 'Awaiting',
+                                                        'approved'
+                                                        ? 'Approved'
+                                                        : 'Awaiting',
                                                     style: TextStyle(
                                                       color: late.requestStatus ==
-                                                              'rejected'
+                                                          'rejected'
                                                           ? Colors.redAccent
                                                           : late.requestStatus ==
-                                                                  'approved'
-                                                              ? Colors.green
-                                                              : const Color(
-                                                                  0xFFDAAD0C),
+                                                          'approved'
+                                                          ? Colors.green
+                                                          : const Color(
+                                                          0xFFDAAD0C),
                                                       fontSize: 16,
                                                       fontWeight:
-                                                          FontWeight.w700,
+                                                      FontWeight.w700,
                                                     ),
                                                   ),
                                                 ),
@@ -490,6 +500,16 @@ class _LateRequestsState extends State<LateRequests> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
+                                                Text(
+                                                  "${late.email}",
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .inversePrimary,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
                                                 Text(
                                                   '${late.name}',
                                                   style: const TextStyle(
@@ -532,7 +552,7 @@ class _LateRequestsState extends State<LateRequests> {
                                                         color: Colors.black),
                                                     children: <TextSpan>[
                                                       TextSpan(
-                                                        text: '${late.on}',
+                                                        text: formatDateString("${late.on}"),
                                                         style: const TextStyle(
                                                           fontSize: 14,
                                                           fontWeight:
@@ -767,7 +787,7 @@ class _LateRequestsState extends State<LateRequests> {
 
   String formatDateString(String dateString) {
     try {
-      DateTime dateTime = DateFormat('MM/dd/yyyy').parse(dateString);
+      DateTime dateTime = DateTime.parse(dateString);
       String formattedDate = DateFormat('EEE, dd MMM yyyy').format(dateTime);
       return formattedDate;
     } catch (e) {
@@ -775,4 +795,5 @@ class _LateRequestsState extends State<LateRequests> {
       return "Invalid Date";
     }
   }
+
 }

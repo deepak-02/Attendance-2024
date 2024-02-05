@@ -10,7 +10,7 @@ import '../../../blocs/adminBloc/admin_bloc.dart';
 import '../../../db/leave/listLeave.dart';
 
 class LeaveRequestsAdmin extends StatefulWidget {
-  const LeaveRequestsAdmin({Key? key}) : super(key: key);
+  const LeaveRequestsAdmin({super.key});
 
   @override
   _LeaveRequestsAdminState createState() => _LeaveRequestsAdminState();
@@ -145,7 +145,7 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                       ),
                                     )
                                   : Padding(
-                                      padding: EdgeInsets.only(left: 10),
+                                      padding: const EdgeInsets.only(left: 10),
                                       child: Text(
                                         "All",
                                         style: TextStyle(
@@ -184,7 +184,7 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                     )
-                                  : Text(
+                                  : const Text(
                                       "Awaiting",
                                       style: TextStyle(
                                         fontSize: 16,
@@ -221,7 +221,7 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                     )
-                                  : Text(
+                                  : const Text(
                                       "Approved",
                                       style: TextStyle(
                                         fontSize: 16,
@@ -258,7 +258,7 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                     )
-                                  : Padding(
+                                  : const Padding(
                                       padding: EdgeInsets.only(right: 10),
                                       child: Text(
                                         "Rejected",
@@ -294,14 +294,14 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                               alignment: Alignment.center,
                               // height: 30,
                               // width: 200,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: Color(0x32e1e1e1),
                                 // borderRadius: BorderRadius.circular(16)
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  "${groupByValue}",
+                                  "$groupByValue",
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor),
                                 ),
@@ -563,7 +563,7 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                                       ],
                                                     ),
                                                   ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   height: 16,
                                                 ),
                                                 Row(
@@ -583,7 +583,6 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                                                     "rejected"));
                                                         Navigator.pop(context);
                                                       },
-                                                      child: Text("Reject"),
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                         backgroundColor:
@@ -598,6 +597,7 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                                                       5.0),
                                                         ),
                                                       ),
+                                                      child: const Text("Reject"),
                                                     ),
                                                     ElevatedButton(
                                                       onPressed: () {
@@ -611,7 +611,6 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                                                     "approved"));
                                                         Navigator.pop(context);
                                                       },
-                                                      child: Text("Approve"),
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                         backgroundColor:
@@ -626,6 +625,7 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                                                       5.0),
                                                         ),
                                                       ),
+                                                      child: const Text("Approve"),
                                                     ),
                                                   ],
                                                 ),

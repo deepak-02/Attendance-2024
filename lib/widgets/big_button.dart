@@ -141,7 +141,7 @@ class BigOutlinedButtonLoading extends StatelessWidget {
       width: double.infinity,
       height: 48,
       decoration: ShapeDecoration(
-        color: Color(0x00C14CF8),
+        color: const Color(0x00C14CF8),
         shape: RoundedRectangleBorder(
           side: BorderSide(
             width: 1.5,

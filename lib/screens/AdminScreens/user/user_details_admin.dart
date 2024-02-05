@@ -35,7 +35,7 @@ class _UserDetailsAdminState extends State<UserDetailsAdmin> {
             Get.back();
           },
         ),
-        title: Text("Profile Details"),
+        title: const Text("Profile Details"),
       ),
       body: SingleChildScrollView(
         child: Padding(

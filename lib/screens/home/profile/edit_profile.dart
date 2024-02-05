@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:attendance/screens/home/about/about.dart';
 import 'package:attendance/screens/password/reset_password.dart';
 import 'package:attendance/widgets/big_button.dart';
 import 'package:attendance/widgets/input_field.dart';

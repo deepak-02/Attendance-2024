@@ -5,11 +5,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 import '../main.dart';
 import '../screens/AdminScreens/leave/leave_requests_admin.dart';
-import 'api.dart';
+import '../screens/home/late/late_requests.dart';
 
 Future handleBackgroundMessage(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -30,22 +29,26 @@ void handleMessage(RemoteMessage? message) {
   // if message data has a certain route specified go there , else no navigation allowed
   if (message.data['click'] == "user") {
     navigatorKey.currentState
-        ?.push(MaterialPageRoute(builder: (context) => LeaveRequests()));
+        ?.push(MaterialPageRoute(builder: (context) => const LeaveRequests()));
   } else if (message.data["click"] == "admin") {
     navigatorKey.currentState
-        ?.push(MaterialPageRoute(builder: (context) => LeaveRequestsAdmin()));
+        ?.push(MaterialPageRoute(builder: (context) => const LeaveRequestsAdmin()));
   } else if (message.data["click"] == "lateUser") {
     print(message.data["click"]);
     print("late User");
+    navigatorKey.currentState
+        ?.push(MaterialPageRoute(builder: (context) => const LateRequests()));
   } else if (message.data["click"] == "lateAdmin") {
     print(message.data["click"]);
     print("late Admin");
+    navigatorKey.currentState
+        ?.push(MaterialPageRoute(builder: (context) => const LateRequests()));
   }
 }
 
 void showLocalNotification(
     RemoteNotification notification, Map<String, dynamic> payload) async {
-  final _localNotifications = FlutterLocalNotificationsPlugin();
+  final localNotifications = FlutterLocalNotificationsPlugin();
   const AndroidNotificationDetails androidChannel = AndroidNotificationDetails(
     'high_importance_channel',
     'High Importance Notifications',
@@ -58,7 +61,7 @@ void showLocalNotification(
   const NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: androidChannel);
 
-  await _localNotifications.show(
+  await localNotifications.show(
     notification.hashCode,
     notification.title,
     notification.body,
@@ -78,7 +81,7 @@ Future<void> initNotification(
       requestSoundPermission: true,
       onDidReceiveLocalNotification:
           (int id, String? title, String? body, String? payload) async {
-        print("Body: ${body}");
+        print("Body: $body");
       });
 
   var initializationSettings = InitializationSettings(
@@ -94,10 +97,20 @@ Future<void> initNotification(
     var payload = jsonDecode(notificationResponse.payload.toString());
     if (payload['click'] == "user") {
       navigatorKey.currentState
-          ?.push(MaterialPageRoute(builder: (context) => LeaveRequests()));
+          ?.push(MaterialPageRoute(builder: (context) => const LeaveRequests()));
     } else if (payload["click"] == "admin") {
       navigatorKey.currentState
-          ?.push(MaterialPageRoute(builder: (context) => LeaveRequestsAdmin()));
+          ?.push(MaterialPageRoute(builder: (context) => const LeaveRequestsAdmin()));
+    } else if (payload["click"] == "lateUser") {
+      print(payload["click"]);
+      print("late User");
+      navigatorKey.currentState
+          ?.push(MaterialPageRoute(builder: (context) => const LateRequests()));
+    } else if (payload["click"] == "lateAdmin") {
+      print(payload["click"]);
+      print("late Admin");
+      navigatorKey.currentState
+          ?.push(MaterialPageRoute(builder: (context) => const LateRequests()));
     }
   });
 }

@@ -108,14 +108,14 @@ class _MyAttendanceState extends State<MyAttendance> {
                     alignment: Alignment.center,
                     // height: 30,
                     // width: 200,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color(0x32e1e1e1),
                       // borderRadius: BorderRadius.circular(16)
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "${groupByValue}",
+                        "$groupByValue",
                         style: TextStyle(color: Theme.of(context).primaryColor),
                       ),
                     )),

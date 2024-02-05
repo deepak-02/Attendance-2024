@@ -13,7 +13,7 @@ import '../../../widgets/full_screen_image.dart';
 import '../user/user_details_admin.dart';
 
 class ListAttendanceAdmin extends StatefulWidget {
-  const ListAttendanceAdmin({Key? key}) : super(key: key);
+  const ListAttendanceAdmin({super.key});
 
   @override
   _ListAttendanceAdminState createState() => _ListAttendanceAdminState();
@@ -38,7 +38,7 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
     "November",
     "December"
   ];
-  List<String> _yearList = [];
+  final List<String> _yearList = [];
 
   late int selectedMonthIndex;
   late int selectedYearIndex;
@@ -98,7 +98,7 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
         },
         builder: (context, state) {
           if (state is GetAdminAttendanceLoading) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (state is GetAdminAttendanceNotFound) {
@@ -127,14 +127,14 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                   alignment: Alignment.center,
                   // height: 30,
                   // width: 200,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Color(0x32e1e1e1),
                     // borderRadius: BorderRadius.circular(16)
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "${groupByValue}",
+                      "$groupByValue",
                       style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
                   )),
@@ -281,7 +281,7 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                                               details: item,
                                             ));
                                           },
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                               Radius.circular(5)),
                                           child: Padding(
                                             padding: const EdgeInsets.all(5),
@@ -290,7 +290,7 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                                                   MainAxisAlignment.end,
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Text(
+                                                const Text(
                                                   "View Profile",
                                                   style: TextStyle(
                                                     fontSize: 16,
@@ -637,12 +637,12 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                       ),
                     ],
                   ),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         "Filter",
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -667,7 +667,7 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                           });
                         },
                       ),
-                      Text('All'),
+                      const Text('All'),
                     ],
                   ),
                   Row(
@@ -683,7 +683,7 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                           });
                         },
                       ),
-                      Text('Custom'),
+                      const Text('Custom'),
                     ],
                   ),
 
@@ -693,7 +693,7 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
                             border: Border.all(
@@ -718,7 +718,7 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
                             border: Border.all(
@@ -741,7 +741,7 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
                             border: Border.all(

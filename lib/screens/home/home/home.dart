@@ -540,7 +540,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            nav.Get.to(RequestLate());
+                            nav.Get.to(const RequestLate());
                           },
                           child: Stack(
                             alignment: Alignment.topCenter,
@@ -625,7 +625,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            nav.Get.to(LateRequests());
+                            nav.Get.to(const LateRequests());
                           },
                           child: Stack(
                             alignment: Alignment.topCenter,

@@ -83,7 +83,7 @@ class _RequestLateState extends State<RequestLate> {
               ),
           body: BlocConsumer<LateBloc, LateState>(
             listener: (context, state) {
-              if (state is RequestLateSuccessState) {
+              if (state is RequestLateSuccessState || state is RequestLateAdminSuccessState) {
                 Navigator.pop(context);
                 Fluttertoast.showToast(
                     msg: "Requested",
@@ -175,6 +175,26 @@ class _RequestLateState extends State<RequestLate> {
                                   ),
                                 ),
                               ),
+                              if (state is RequestLateAdminUserEmptyState)
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 8.0, right: 8.0),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: double.infinity,
+                                    height: 42,
+                                    decoration: ShapeDecoration(
+                                      color: const Color(0xFFFF5F5F),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "Select a user",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
                               const Divider(
                                 color: Colors.black12,
                                 thickness: 0.5,

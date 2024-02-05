@@ -1,15 +1,12 @@
 import 'package:attendance/blocs/attendanceBloc/attendance_bloc.dart';
 import 'package:attendance/blocs/lateBloc/late_bloc.dart';
 import 'package:attendance/blocs/loginBloc/login_bloc.dart';
-import 'package:attendance/screens/home/dashboard.dart';
-import 'package:attendance/screens/login/login_page.dart';
 import 'package:attendance/widgets/loadingSplashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'blocs/adminBloc/admin_bloc.dart';
 import 'blocs/homeBloc/home_bloc.dart';

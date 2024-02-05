@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' as nav;
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../blocs/profileBloc/profile_bloc.dart';
 import '../../../widgets/big_button.dart';
 import '../../../widgets/full_screen_image.dart';
@@ -291,7 +290,7 @@ class _ProfileState extends State<Profile> {
                           height: 20,
                         ),
                         state is LogoutLoadingState
-                            ? BigOutlinedButtonLoading()
+                            ? const BigOutlinedButtonLoading()
                             : BigOutlinedButtonWithIcon(
                                 title: 'Logout',
                                 icon: Icons.logout,

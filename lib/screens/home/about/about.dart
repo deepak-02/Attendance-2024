@@ -1,4 +1,3 @@
-import 'package:attendance/screens/home/about/more.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
