@@ -2,6 +2,8 @@ import 'package:attendance/db/attendance/myAttendance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' as nav;
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
 import '../../../blocs/attendanceBloc/attendance_bloc.dart';
 
 class MyAttendance extends StatefulWidget {
@@ -92,48 +94,117 @@ class _MyAttendanceState extends State<MyAttendance> {
             return RefreshIndicator(
               onRefresh: () async =>
                   attendanceBloc.add(GetMyAttendance(widget.email)),
-              child: ListView.separated(
-                itemCount: attendance!.length,
-                itemBuilder: (BuildContext context, int index) {
-                  var item = attendance![index];
-                  return ListTile(
-                    leading: CircleAvatar(
-                      child: Text("${index + 1}"),
+
+              child: GroupedListView<Attendance, dynamic>(
+                elements: attendance!,
+                groupBy: (element) {
+                  String? dateString = element.attendanceIn!.date;
+                  DateTime date = DateFormat('M/d/yyyy').parse(dateString!);
+                  String monthName = DateFormat('MMMM').format(date);
+                  return monthName;
+                },
+                stickyHeaderBackgroundColor: Colors.transparent,
+                groupSeparatorBuilder: (groupByValue) => Container(
+                    alignment: Alignment.center,
+                    // height: 30,
+                    // width: 200,
+                    decoration: BoxDecoration(
+                      color: Color(0x32e1e1e1),
+                      // borderRadius: BorderRadius.circular(16)
                     ),
-                    title: Text(
-                      "${item.attendanceIn!.date}",
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text('In Time: '),
-                            Text(
-                              '${item.attendanceIn!.time}',
-                              style: TextStyle(
-                                  color: item.attendanceIn!.late == true
-                                      ? Colors.red
-                                      : Colors.black),
-                            ),
-                          ],
-                        ),
-                        Text('Out Time: ${item.out!.time}'),
-                      ],
-                    ),
-                    trailing: Text(
-                      item.attendanceIn!.late == true ? "late" : "",
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "${groupByValue}",
+                        style: TextStyle(color: Theme.of(context).primaryColor),
+                      ),
+                    )),
+
+                indexedItemBuilder: (context, item, index) {
+                  return Card(
+                    color: Colors.white,
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        child: Text("${index + 1}"),
+                      ),
+                      title: Text(
+                        "${item.attendanceIn!.date}",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text('In Time: '),
+                              Text(
+                                '${item.attendanceIn!.time}',
+                                style: TextStyle(
+                                    color: item.attendanceIn!.late == true
+                                        ? Colors.red
+                                        : Colors.black),
+                              ),
+                            ],
+                          ),
+                          Text('Out Time: ${item.out!.time}'),
+                        ],
+                      ),
+                      trailing: Text(
+                        item.attendanceIn!.late == true ? "late" : "",
+                      ),
                     ),
                   );
                 },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Divider(
-                    color: Colors.black12,
-                  );
-                },
+                itemComparator: (item1, item2) => item1.attendanceIn!.date!
+                    .compareTo(item2.attendanceIn!.date!), // optional
+                useStickyGroupSeparators: false, // optional
+                floatingHeader: true, // optional
+                order: GroupedListOrder.DESC, // optional
               ),
+
+              // child: ListView.separated(
+              //   itemCount: attendance!.length,
+              //   itemBuilder: (BuildContext context, int index) {
+              //     var item = attendance![index];
+              //     return ListTile(
+              //       leading: CircleAvatar(
+              //         child: Text("${index + 1}"),
+              //       ),
+              //       title: Text(
+              //         "${item.attendanceIn!.date}",
+              //         style: const TextStyle(fontWeight: FontWeight.bold),
+              //       ),
+              //       subtitle: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           Row(
+              //             mainAxisSize: MainAxisSize.min,
+              //             children: [
+              //               const Text('In Time: '),
+              //               Text(
+              //                 '${item.attendanceIn!.time}',
+              //                 style: TextStyle(
+              //                     color: item.attendanceIn!.late == true
+              //                         ? Colors.red
+              //                         : Colors.black),
+              //               ),
+              //             ],
+              //           ),
+              //           Text('Out Time: ${item.out!.time}'),
+              //         ],
+              //       ),
+              //       trailing: Text(
+              //         item.attendanceIn!.late == true ? "late" : "",
+              //       ),
+              //     );
+              //   },
+              //   separatorBuilder: (BuildContext context, int index) {
+              //     return const Divider(
+              //       color: Colors.black12,
+              //     );
+              //   },
+              // ),
             );
           } else {
             return RefreshIndicator(

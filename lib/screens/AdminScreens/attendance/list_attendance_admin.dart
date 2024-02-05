@@ -4,6 +4,7 @@ import 'package:attendance/widgets/big_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart' as nav;
+import 'package:grouped_list/grouped_list.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../blocs/adminBloc/admin_bloc.dart';
@@ -118,13 +119,30 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
               child: Text(state.error),
             );
           } else if (state is GetAdminAttendanceSuccess) {
-            return ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: attendances!.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  var item = attendances![index];
-                  return ListTile(
+            return GroupedListView<Attendance, dynamic>(
+              elements: attendances!,
+              groupBy: (element) => element.attendanceIn!.date,
+              stickyHeaderBackgroundColor: Colors.transparent,
+              groupSeparatorBuilder: (groupByValue) => Container(
+                  alignment: Alignment.center,
+                  // height: 30,
+                  // width: 200,
+                  decoration: BoxDecoration(
+                    color: Color(0x32e1e1e1),
+                    // borderRadius: BorderRadius.circular(16)
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "${groupByValue}",
+                      style: TextStyle(color: Theme.of(context).primaryColor),
+                    ),
+                  )),
+
+              itemBuilder: (context, item) {
+                return Card(
+                  color: Colors.white,
+                  child: ListTile(
                     onTap: () {
                       showGeneralDialog(
                           barrierDismissible: true,
@@ -343,8 +361,243 @@ class _ListAttendanceAdminState extends State<ListAttendanceAdmin> {
                         Text('Out Time: ${item.out!.time}'),
                       ],
                     ),
-                  );
-                });
+                  ),
+                );
+              },
+              itemComparator: (item1, item2) => item1.attendanceIn!.date!
+                  .compareTo(item2.attendanceIn!.date!), // optional
+              useStickyGroupSeparators: false, // optional
+              floatingHeader: true, // optional
+              order: GroupedListOrder.DESC, // optional
+            );
+
+            // return ListView.builder(
+            //     physics: const BouncingScrollPhysics(),
+            //     itemCount: attendances!.length,
+            //     shrinkWrap: true,
+            //     itemBuilder: (BuildContext context, int index) {
+            //       var item = attendances![index];
+            //       return ListTile(
+            //         onTap: () {
+            //           showGeneralDialog(
+            //               barrierDismissible: true,
+            //               barrierLabel: '',
+            //               transitionDuration: const Duration(milliseconds: 200),
+            //               context: context,
+            //               barrierColor: const Color(0x32000000),
+            //               pageBuilder: (context, animation1, animation2) {
+            //                 return Container();
+            //               },
+            //               transitionBuilder: (context, a1, a2, widget) {
+            //                 return ScaleTransition(
+            //                   scale: Tween<double>(begin: 0.5, end: 1.0)
+            //                       .animate(a1),
+            //                   child: AlertDialog(
+            //                     surfaceTintColor: Colors.white,
+            //                     backgroundColor: Colors.white,
+            //                     shadowColor: Colors.white,
+            //                     contentPadding: const EdgeInsets.all(15),
+            //                     title: Text(
+            //                       "${item.name}",
+            //                       style: TextStyle(
+            //                         color: Theme.of(context)
+            //                             .colorScheme
+            //                             .inversePrimary,
+            //                         fontSize: 18,
+            //                         fontWeight: FontWeight.bold,
+            //                       ),
+            //                     ),
+            //                     content: Column(
+            //                       mainAxisSize: MainAxisSize.min,
+            //                       crossAxisAlignment: CrossAxisAlignment.start,
+            //                       children: [
+            //                         Text(
+            //                           "${item.email}",
+            //                           style: const TextStyle(
+            //                             color: Colors.black54,
+            //                             fontSize: 14,
+            //                             fontWeight: FontWeight.w400,
+            //                           ),
+            //                         ),
+            //                         Text(
+            //                           "${item.batch}",
+            //                           style: const TextStyle(
+            //                             color: Colors.black54,
+            //                             fontSize: 14,
+            //                             fontWeight: FontWeight.w400,
+            //                           ),
+            //                         ),
+            //                         RichText(
+            //                           text: TextSpan(
+            //                             text: 'Date: ',
+            //                             style: const TextStyle(
+            //                                 fontSize: 14,
+            //                                 fontWeight: FontWeight.w400,
+            //                                 color: Colors.black),
+            //                             children: <TextSpan>[
+            //                               TextSpan(
+            //                                 text: '${item.attendanceIn!.date}',
+            //                                 style: TextStyle(
+            //                                   fontSize: 14,
+            //                                   fontWeight: FontWeight.bold,
+            //                                   color: Theme.of(context)
+            //                                       .primaryColor,
+            //                                 ),
+            //                               ),
+            //                             ],
+            //                           ),
+            //                         ),
+            //                         RichText(
+            //                           text: TextSpan(
+            //                             text: 'In Time: ',
+            //                             style: const TextStyle(
+            //                                 fontSize: 14,
+            //                                 fontWeight: FontWeight.w400,
+            //                                 color: Colors.black),
+            //                             children: <TextSpan>[
+            //                               TextSpan(
+            //                                 text: '${item.attendanceIn!.time}',
+            //                                 style: const TextStyle(
+            //                                   fontSize: 14,
+            //                                   fontWeight: FontWeight.bold,
+            //                                   color: Colors.blueGrey,
+            //                                 ),
+            //                               ),
+            //                             ],
+            //                           ),
+            //                         ),
+            //                         RichText(
+            //                           text: TextSpan(
+            //                             text: 'Out Time: ',
+            //                             style: const TextStyle(
+            //                                 fontSize: 14,
+            //                                 fontWeight: FontWeight.w400,
+            //                                 color: Colors.black),
+            //                             children: <TextSpan>[
+            //                               TextSpan(
+            //                                 text: '${item.out!.time}',
+            //                                 style: const TextStyle(
+            //                                   fontSize: 14,
+            //                                   fontWeight: FontWeight.bold,
+            //                                   color: Colors.blueGrey,
+            //                                 ),
+            //                               ),
+            //                             ],
+            //                           ),
+            //                         ),
+            //                         RichText(
+            //                           text: TextSpan(
+            //                             text: 'Is late: ',
+            //                             style: const TextStyle(
+            //                                 fontSize: 14,
+            //                                 fontWeight: FontWeight.w400,
+            //                                 color: Colors.black),
+            //                             children: <TextSpan>[
+            //                               TextSpan(
+            //                                 text: '${item.attendanceIn!.late}',
+            //                                 style: TextStyle(
+            //                                   fontSize: 14,
+            //                                   fontWeight: FontWeight.bold,
+            //                                   color: Theme.of(context)
+            //                                       .colorScheme
+            //                                       .primary,
+            //                                 ),
+            //                               ),
+            //                             ],
+            //                           ),
+            //                         ),
+            //                         Row(
+            //                           mainAxisAlignment: MainAxisAlignment.end,
+            //                           children: [
+            //                             InkWell(
+            //                               onTap: () {
+            //                                 // Get to profile page with the item details
+            //                                 nav.Get.to(UserDetailsAdmin(
+            //                                   details: item,
+            //                                 ));
+            //                               },
+            //                               borderRadius: BorderRadius.all(
+            //                                   Radius.circular(5)),
+            //                               child: Padding(
+            //                                 padding: const EdgeInsets.all(5),
+            //                                 child: Row(
+            //                                   mainAxisAlignment:
+            //                                       MainAxisAlignment.end,
+            //                                   mainAxisSize: MainAxisSize.min,
+            //                                   children: [
+            //                                     Text(
+            //                                       "View Profile",
+            //                                       style: TextStyle(
+            //                                         fontSize: 16,
+            //                                         fontWeight: FontWeight.w500,
+            //                                         color: Colors.black87,
+            //                                       ),
+            //                                     ),
+            //                                     Icon(
+            //                                       Icons
+            //                                           .arrow_forward_ios_rounded,
+            //                                       color: Theme.of(context)
+            //                                           .primaryColor,
+            //                                       size: 20,
+            //                                     ),
+            //                                   ],
+            //                                 ),
+            //                               ),
+            //                             ),
+            //                           ],
+            //                         )
+            //                       ],
+            //                     ),
+            //                     shape: OutlineInputBorder(
+            //                         borderRadius: BorderRadius.circular(10),
+            //                         borderSide: BorderSide.none),
+            //                   ),
+            //                 );
+            //               });
+            //         },
+            //         leading: item.image == ''
+            //             ? const CircleAvatar(
+            //                 radius: 30,
+            //                 child: Icon(
+            //                   Icons.person,
+            //                   color: Colors.white,
+            //                 ),
+            //               )
+            //             : GestureDetector(
+            //                 onTap: () {
+            //                   nav.Get.to(FullScreenImagePage(
+            //                     image: item.image!,
+            //                     title: '${item.name}',
+            //                   ));
+            //                 },
+            //                 child: CircleAvatar(
+            //                   radius: 30,
+            //                   backgroundImage:
+            //                       MemoryImage(base64Decode(item.image!)),
+            //                 ),
+            //               ),
+            //         title: Text("${item.name}"),
+            //         subtitle: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Row(
+            //               mainAxisSize: MainAxisSize.min,
+            //               children: [
+            //                 const Text('In Time: '),
+            //                 Text(
+            //                   '${item.attendanceIn!.time}',
+            //                   style: TextStyle(
+            //                       color: item.attendanceIn!.late == true
+            //                           ? Colors.red
+            //                           : Colors.black),
+            //                 ),
+            //               ],
+            //             ),
+            //             Text('Out Time: ${item.out!.time}'),
+            //           ],
+            //         ),
+            //       );
+            //     });
           } else {
             return const Center(
               child: Text("Something Wrong!"),

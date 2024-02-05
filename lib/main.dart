@@ -1,4 +1,5 @@
 import 'package:attendance/blocs/attendanceBloc/attendance_bloc.dart';
+import 'package:attendance/blocs/lateBloc/late_bloc.dart';
 import 'package:attendance/blocs/loginBloc/login_bloc.dart';
 import 'package:attendance/screens/home/dashboard.dart';
 import 'package:attendance/screens/login/login_page.dart';
@@ -63,6 +64,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<AdminBloc>(
           create: (context) => AdminBloc(),
+        ),
+        BlocProvider<LateBloc>(
+          create: (context) => LateBloc(),
         ),
       ],
       child: GetMaterialApp(

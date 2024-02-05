@@ -7,13 +7,15 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../blocs/adminBloc/admin_bloc.dart';
+import '../../../blocs/lateBloc/late_bloc.dart';
 import '../../../db/admin/adminUsersModel.dart';
 import '../../../widgets/big_button.dart';
 import '../../../widgets/full_screen_image.dart';
 import '../../../widgets/input_field.dart';
 
 class AllUsers extends StatefulWidget {
-  const AllUsers({super.key});
+  final String? page;
+  const AllUsers({super.key, this.page});
 
   @override
   State<AllUsers> createState() => _AllUsersState();
@@ -104,7 +106,7 @@ class _AllUsersState extends State<AllUsers> {
                     controller: searchController,
                     labelText: 'Search by name, phone, or email',
                     hintText: 'Search by name, phone, or email',
-                    prefixIcon: Icon(Icons.search),
+                    prefixIcon: const Icon(Icons.search),
                     onChanged: (query) => _filterUsers(query, state),
                   ),
                 ),
@@ -117,9 +119,15 @@ class _AllUsersState extends State<AllUsers> {
                         var item = filteredUsers[index];
                         return ListTile(
                           onTap: () {
-                            Get.to(UsersProfile(
-                              user: item,
-                            ));
+                            if (widget.page == null) {
+                              Get.to(UsersProfile(
+                                user: item,
+                              ));
+                            } else {
+                              BlocProvider.of<LateBloc>(context)
+                                  .add(UserChangeEvent(email: item.email!));
+                              Get.back();
+                            }
                           },
                           leading: item.image == ''
                               ? const CircleAvatar(

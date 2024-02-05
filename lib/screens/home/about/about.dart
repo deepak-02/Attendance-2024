@@ -55,7 +55,7 @@ class _AboutState extends State<About> {
                       const Padding(
                         padding: EdgeInsets.only(top: 4.0),
                         child: Text(
-                          'Version 5.0.0',
+                          'Version 5.1.0',
                           style: TextStyle(
                             // color: Color.fromRGBO(255, 255, 255, 0.5),
                             fontSize: 18.0,
@@ -82,7 +82,7 @@ class _AboutState extends State<About> {
                         flex: 2,
                       ),
                       const Padding(
-                        padding: EdgeInsets.only(top: 32.0),
+                        padding: EdgeInsets.only(top: 32.0, bottom: 20),
                         child: Text(
                           '© 2022  PTF Team',
                           style: TextStyle(
@@ -91,26 +91,26 @@ class _AboutState extends State<About> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: TextButton(
-                          onPressed: () {
-                            Get.to(
-                              () => const More(),
-                              transition: Transition.downToUp,
-                              duration: const Duration(milliseconds: 500),
-                            );
-                          },
-                          child: Text(
-                            'MORE',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 17.0,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 15.0),
+                      //   child: TextButton(
+                      //     onPressed: () {
+                      //       Get.to(
+                      //         () => const More(),
+                      //         transition: Transition.downToUp,
+                      //         duration: const Duration(milliseconds: 500),
+                      //       );
+                      //     },
+                      //     child: Text(
+                      //       'MORE',
+                      //       style: TextStyle(
+                      //           decoration: TextDecoration.underline,
+                      //           color: Theme.of(context).primaryColor,
+                      //           fontSize: 17.0,
+                      //           fontWeight: FontWeight.bold),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],

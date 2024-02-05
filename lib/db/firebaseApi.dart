@@ -34,6 +34,12 @@ void handleMessage(RemoteMessage? message) {
   } else if (message.data["click"] == "admin") {
     navigatorKey.currentState
         ?.push(MaterialPageRoute(builder: (context) => LeaveRequestsAdmin()));
+  } else if (message.data["click"] == "lateUser") {
+    print(message.data["click"]);
+    print("late User");
+  } else if (message.data["click"] == "lateAdmin") {
+    print(message.data["click"]);
+    print("late Admin");
   }
 }
 

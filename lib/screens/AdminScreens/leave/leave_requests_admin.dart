@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' as nav;
+import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
@@ -275,450 +276,913 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                         height: 16,
                       ),
                       if (state is GetAdminLeaveRequestsSuccess)
-                        ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: leaveRequests!.length,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              var leave = leaveRequests![index];
-                              return Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 8.0, bottom: 8.0),
-                                child: ListTile(
-                                  onTap: () {
-                                    showGeneralDialog(
-                                        barrierDismissible: true,
-                                        barrierLabel: '',
-                                        transitionDuration:
-                                            const Duration(milliseconds: 200),
-                                        context: context,
-                                        barrierColor: const Color(0x32000000),
-                                        pageBuilder:
-                                            (context, animation1, animation2) {
-                                          return Container();
-                                        },
-                                        transitionBuilder:
-                                            (context, a1, a2, widget) {
-                                          return ScaleTransition(
-                                            scale: Tween<double>(
-                                                    begin: 0.5, end: 1.0)
-                                                .animate(a1),
-                                            child: AlertDialog(
-                                              surfaceTintColor: Colors.white,
-                                              backgroundColor: Colors.white,
-                                              shadowColor: Colors.white,
-                                              contentPadding:
-                                                  const EdgeInsets.all(15),
-                                              title: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    leave.type == null ||
-                                                            leave.type == ''
-                                                        ? ""
-                                                        : leave.type![0]
-                                                                .toUpperCase() +
-                                                            leave.type!
-                                                                .substring(1),
-                                                    style: TextStyle(
-                                                      color: leave.type ==
-                                                              'sick'
-                                                          ? Theme.of(context)
-                                                              .colorScheme
-                                                              .inversePrimary
-                                                          : const Color(
-                                                              0xFFFFD337),
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
+                        GroupedListView<LeaveRequest, dynamic>(
+                          elements: leaveRequests!,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          groupBy: (element) {
+                            // print(element.requestedOn);
+                            String? dateString = element.requestedOn;
+                            DateTime date =
+                                DateFormat('MM/d/yyyy').parse(dateString!);
+                            String monthName =
+                                DateFormat('MMMM yyyy').format(date);
+                            return monthName;
+                          },
+                          stickyHeaderBackgroundColor: Colors.transparent,
+                          groupSeparatorBuilder: (groupByValue) => Container(
+                              alignment: Alignment.center,
+                              // height: 30,
+                              // width: 200,
+                              decoration: BoxDecoration(
+                                color: Color(0x32e1e1e1),
+                                // borderRadius: BorderRadius.circular(16)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "${groupByValue}",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                              )),
+
+                          indexedItemBuilder: (context, leave, index) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                              child: ListTile(
+                                onTap: () {
+                                  showGeneralDialog(
+                                      barrierDismissible: true,
+                                      barrierLabel: '',
+                                      transitionDuration:
+                                          const Duration(milliseconds: 200),
+                                      context: context,
+                                      barrierColor: const Color(0x32000000),
+                                      pageBuilder:
+                                          (context, animation1, animation2) {
+                                        return Container();
+                                      },
+                                      transitionBuilder:
+                                          (context, a1, a2, widget) {
+                                        return ScaleTransition(
+                                          scale: Tween<double>(
+                                                  begin: 0.5, end: 1.0)
+                                              .animate(a1),
+                                          child: AlertDialog(
+                                            surfaceTintColor: Colors.white,
+                                            backgroundColor: Colors.white,
+                                            shadowColor: Colors.white,
+                                            contentPadding:
+                                                const EdgeInsets.all(15),
+                                            title: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  leave.type == null ||
+                                                          leave.type == ''
+                                                      ? ""
+                                                      : leave.type![0]
+                                                              .toUpperCase() +
+                                                          leave.type!
+                                                              .substring(1),
+                                                  style: TextStyle(
+                                                    color: leave.type == 'sick'
+                                                        ? Theme.of(context)
+                                                            .colorScheme
+                                                            .inversePrimary
+                                                        : const Color(
+                                                            0xFFFFD337),
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
-                                                  Container(
-                                                    width: 100,
-                                                    height: 30,
-                                                    decoration: ShapeDecoration(
+                                                ),
+                                                Container(
+                                                  width: 100,
+                                                  height: 30,
+                                                  decoration: ShapeDecoration(
+                                                    color: leave.requestStatus ==
+                                                            'rejected'
+                                                        ? const Color(
+                                                            0x3FFF3737)
+                                                        : leave.requestStatus ==
+                                                                'approved'
+                                                            ? const Color(
+                                                                0x7037FF87)
+                                                            : const Color(
+                                                                0x3FFFD337),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8)),
+                                                  ),
+                                                  alignment: Alignment.center,
+                                                  padding:
+                                                      const EdgeInsets.all(2),
+                                                  child: Text(
+                                                    leave.requestStatus ==
+                                                            'rejected'
+                                                        ? 'Rejected'
+                                                        : leave.requestStatus ==
+                                                                'approved'
+                                                            ? 'Approved'
+                                                            : 'Awaiting',
+                                                    style: TextStyle(
                                                       color: leave.requestStatus ==
                                                               'rejected'
-                                                          ? const Color(
-                                                              0x3FFF3737)
+                                                          ? Colors.redAccent
                                                           : leave.requestStatus ==
                                                                   'approved'
-                                                              ? const Color(
-                                                                  0x7037FF87)
+                                                              ? Colors.green
                                                               : const Color(
-                                                                  0x3FFFD337),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8)),
+                                                                  0xFFDAAD0C),
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w700,
                                                     ),
-                                                    alignment: Alignment.center,
-                                                    padding:
-                                                        const EdgeInsets.all(2),
-                                                    child: Text(
-                                                      leave.requestStatus ==
-                                                              'rejected'
-                                                          ? 'Rejected'
-                                                          : leave.requestStatus ==
-                                                                  'approved'
-                                                              ? 'Approved'
-                                                              : 'Awaiting',
-                                                      style: TextStyle(
-                                                        color: leave.requestStatus ==
-                                                                'rejected'
-                                                            ? Colors.redAccent
-                                                            : leave.requestStatus ==
-                                                                    'approved'
-                                                                ? Colors.green
-                                                                : const Color(
-                                                                    0xFFDAAD0C),
-                                                        fontSize: 16,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  leave.requestDate == null ||
+                                                          leave.requestDate ==
+                                                              '' ||
+                                                          leave.toDate ==
+                                                              null ||
+                                                          leave.toDate == ''
+                                                      ? ""
+                                                      : '${getDifference(leave.requestDate!, leave.toDate!)} Day Application',
+                                                  style: const TextStyle(
+                                                    color: Colors.black26,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "${leave.email}",
+                                                ),
+                                                Text(
+                                                  "${leave.name}",
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                RichText(
+                                                  text: TextSpan(
+                                                    text: 'Requested on: ',
+                                                    style: const TextStyle(
+                                                        fontSize: 14,
                                                         fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    leave.requestDate == null ||
-                                                            leave.requestDate ==
-                                                                '' ||
-                                                            leave.toDate ==
-                                                                null ||
-                                                            leave.toDate == ''
-                                                        ? ""
-                                                        : '${getDifference(leave.requestDate!, leave.toDate!)} Day Application',
-                                                    style: const TextStyle(
-                                                      color: Colors.black26,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "${leave.email}",
-                                                  ),
-                                                  Text(
-                                                    "${leave.name}",
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                  RichText(
-                                                    text: TextSpan(
-                                                      text: 'Requested on: ',
-                                                      style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: Colors.black),
-                                                      children: <TextSpan>[
-                                                        TextSpan(
-                                                          text:
-                                                              '${leave.requestedOn}',
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .primaryColor,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  RichText(
-                                                    text: TextSpan(
-                                                      text: 'Request Date: ',
-                                                      style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: Colors.black),
-                                                      children: <TextSpan>[
-                                                        TextSpan(
-                                                          text:
-                                                              '${leave.requestDate}',
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.blueGrey,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  RichText(
-                                                    text: TextSpan(
-                                                      text: 'Requested Until: ',
-                                                      style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: Colors.black),
-                                                      children: <TextSpan>[
-                                                        TextSpan(
-                                                          text:
-                                                              '${leave.toDate}',
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.blueGrey,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  RichText(
-                                                    text: TextSpan(
-                                                      text: 'Reason: ',
-                                                      style: const TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color: Colors.black),
-                                                      children: <TextSpan>[
-                                                        TextSpan(
-                                                          text:
-                                                              '${leave.reason}',
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .colorScheme
-                                                                .primary,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  if (leave
-                                                          .approvedOrRejectedOn !=
-                                                      "")
-                                                    RichText(
-                                                      text: TextSpan(
+                                                            FontWeight.w400,
+                                                        color: Colors.black),
+                                                    children: <TextSpan>[
+                                                      TextSpan(
                                                         text:
-                                                            '${leave.requestStatus![0].toUpperCase() + leave.requestStatus!.substring(1)} on: ',
-                                                        style: const TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color:
-                                                                Colors.black),
-                                                        children: <TextSpan>[
-                                                          TextSpan(
-                                                            text: leave
-                                                                .approvedOrRejectedOn,
-                                                            style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: leave.requestStatus ==
-                                                                      'rejected'
-                                                                  ? Colors
-                                                                      .redAccent
-                                                                  : Colors
-                                                                      .green,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  SizedBox(
-                                                    height: 16,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceEvenly,
-                                                    children: [
-                                                      ElevatedButton(
-                                                        onPressed: () {
-                                                          leaveBloc.add(LeaveStatusChangeEvent(
-                                                              email:
-                                                                  "${leave.email}",
-                                                              id:
-                                                                  "${leave.leaveId}",
-                                                              status:
-                                                                  "rejected"));
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: Text("Reject"),
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          backgroundColor:
-                                                              Colors.red,
-                                                          foregroundColor:
-                                                              Colors.white,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      ElevatedButton(
-                                                        onPressed: () {
-                                                          leaveBloc.add(LeaveStatusChangeEvent(
-                                                              email:
-                                                                  "${leave.email}",
-                                                              id:
-                                                                  "${leave.leaveId}",
-                                                              status:
-                                                                  "approved"));
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: Text("Approve"),
-                                                        style: ElevatedButton
-                                                            .styleFrom(
-                                                          backgroundColor:
-                                                              Colors.green,
-                                                          foregroundColor:
-                                                              Colors.white,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5.0),
-                                                          ),
+                                                            '${leave.requestedOn}',
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                ],
-                                              ),
-                                              shape: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  borderSide: BorderSide.none),
+                                                ),
+                                                RichText(
+                                                  text: TextSpan(
+                                                    text: 'Request Date: ',
+                                                    style: const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Colors.black),
+                                                    children: <TextSpan>[
+                                                      TextSpan(
+                                                        text:
+                                                            '${leave.requestDate}',
+                                                        style: const TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Colors.blueGrey,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                RichText(
+                                                  text: TextSpan(
+                                                    text: 'Requested Until: ',
+                                                    style: const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Colors.black),
+                                                    children: <TextSpan>[
+                                                      TextSpan(
+                                                        text: '${leave.toDate}',
+                                                        style: const TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Colors.blueGrey,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                RichText(
+                                                  text: TextSpan(
+                                                    text: 'Reason: ',
+                                                    style: const TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Colors.black),
+                                                    children: <TextSpan>[
+                                                      TextSpan(
+                                                        text: '${leave.reason}',
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                if (leave
+                                                        .approvedOrRejectedOn !=
+                                                    "")
+                                                  RichText(
+                                                    text: TextSpan(
+                                                      text:
+                                                          '${leave.requestStatus![0].toUpperCase() + leave.requestStatus!.substring(1)} on: ',
+                                                      style: const TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.black),
+                                                      children: <TextSpan>[
+                                                        TextSpan(
+                                                          text: leave
+                                                              .approvedOrRejectedOn,
+                                                          style: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: leave.requestStatus ==
+                                                                    'rejected'
+                                                                ? Colors
+                                                                    .redAccent
+                                                                : Colors.green,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                SizedBox(
+                                                  height: 16,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        leaveBloc.add(
+                                                            LeaveStatusChangeEvent(
+                                                                email:
+                                                                    "${leave.email}",
+                                                                id:
+                                                                    "${leave.leaveId}",
+                                                                status:
+                                                                    "rejected"));
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text("Reject"),
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        foregroundColor:
+                                                            Colors.white,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      5.0),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        leaveBloc.add(
+                                                            LeaveStatusChangeEvent(
+                                                                email:
+                                                                    "${leave.email}",
+                                                                id:
+                                                                    "${leave.leaveId}",
+                                                                status:
+                                                                    "approved"));
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text("Approve"),
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        foregroundColor:
+                                                            Colors.white,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      5.0),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
-                                          );
-                                        });
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      width: 1,
-                                      color: Colors.black.withOpacity(0.5),
-                                    ),
-                                    borderRadius: BorderRadius.circular(16),
+                                            shape: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: BorderSide.none),
+                                          ),
+                                        );
+                                      });
+                                },
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    width: 1,
+                                    color: Colors.black.withOpacity(0.5),
                                   ),
-                                  trailing: Container(
-                                    width: 100,
-                                    height: 30,
-                                    decoration: ShapeDecoration(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                trailing: Container(
+                                  width: 100,
+                                  height: 30,
+                                  decoration: ShapeDecoration(
+                                    color: leave.requestStatus == 'rejected'
+                                        ? const Color(0x3FFF3737)
+                                        : leave.requestStatus == 'approved'
+                                            ? const Color(0x7037FF87)
+                                            : const Color(0x3FFFD337),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8)),
+                                  ),
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.all(2),
+                                  child: Text(
+                                    leave.requestStatus == 'rejected'
+                                        ? 'Rejected'
+                                        : leave.requestStatus == 'approved'
+                                            ? 'Approved'
+                                            : 'Awaiting',
+                                    style: TextStyle(
                                       color: leave.requestStatus == 'rejected'
-                                          ? const Color(0x3FFF3737)
+                                          ? Colors.redAccent
                                           : leave.requestStatus == 'approved'
-                                              ? const Color(0x7037FF87)
-                                              : const Color(0x3FFFD337),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8)),
+                                              ? Colors.green
+                                              : const Color(0xFFDAAD0C),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
                                     ),
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.all(2),
-                                    child: Text(
-                                      leave.requestStatus == 'rejected'
-                                          ? 'Rejected'
-                                          : leave.requestStatus == 'approved'
-                                              ? 'Approved'
-                                              : 'Awaiting',
-                                      style: TextStyle(
-                                        color: leave.requestStatus == 'rejected'
-                                            ? Colors.redAccent
-                                            : leave.requestStatus == 'approved'
-                                                ? Colors.green
-                                                : const Color(0xFFDAAD0C),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ),
-                                  title: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        "${leave.name}",
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      Text(
-                                        "${leave.email}",
-                                        style: const TextStyle(
-                                          color: Colors.black38,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  subtitle: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        formatDateString(
-                                            "${leave.requestDate}"),
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700,
-                                          height: 0,
-                                        ),
-                                      ),
-                                      Text(
-                                        leave.type![0].toUpperCase() +
-                                            leave.type!.substring(1),
-                                        style: TextStyle(
-                                          color: leave.type == 'sick'
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .inversePrimary
-                                              : const Color(0xFFFFD337),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ],
                                   ),
                                 ),
-                              );
-                            }),
+                                title: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      "${leave.name}",
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
+                                      "${leave.email}",
+                                      style: const TextStyle(
+                                        color: Colors.black38,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                subtitle: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      formatDateString("${leave.requestDate}"),
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        height: 0,
+                                      ),
+                                    ),
+                                    Text(
+                                      leave.type![0].toUpperCase() +
+                                          leave.type!.substring(1),
+                                      style: TextStyle(
+                                        color: leave.type == 'sick'
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .inversePrimary
+                                            : const Color(0xFFFFD337),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                          itemComparator: (item1, item2) => item1.requestDate!
+                              .compareTo(item2.requestDate!), // optional
+                          useStickyGroupSeparators: false, // optional
+                          floatingHeader: true, // optional
+                          order: GroupedListOrder.DESC, // optional
+                        ),
+
+                      // ListView.builder(
+                      //     physics: const NeverScrollableScrollPhysics(),
+                      //     itemCount: leaveRequests!.length,
+                      //     shrinkWrap: true,
+                      //     itemBuilder: (BuildContext context, int index) {
+                      //       var leave = leaveRequests![index];
+                      //       return Padding(
+                      //         padding: const EdgeInsets.only(
+                      //             top: 8.0, bottom: 8.0),
+                      //         child: ListTile(
+                      //           onTap: () {
+                      //             showGeneralDialog(
+                      //                 barrierDismissible: true,
+                      //                 barrierLabel: '',
+                      //                 transitionDuration:
+                      //                     const Duration(milliseconds: 200),
+                      //                 context: context,
+                      //                 barrierColor: const Color(0x32000000),
+                      //                 pageBuilder:
+                      //                     (context, animation1, animation2) {
+                      //                   return Container();
+                      //                 },
+                      //                 transitionBuilder:
+                      //                     (context, a1, a2, widget) {
+                      //                   return ScaleTransition(
+                      //                     scale: Tween<double>(
+                      //                             begin: 0.5, end: 1.0)
+                      //                         .animate(a1),
+                      //                     child: AlertDialog(
+                      //                       surfaceTintColor: Colors.white,
+                      //                       backgroundColor: Colors.white,
+                      //                       shadowColor: Colors.white,
+                      //                       contentPadding:
+                      //                           const EdgeInsets.all(15),
+                      //                       title: Row(
+                      //                         mainAxisAlignment:
+                      //                             MainAxisAlignment
+                      //                                 .spaceBetween,
+                      //                         children: [
+                      //                           Text(
+                      //                             leave.type == null ||
+                      //                                     leave.type == ''
+                      //                                 ? ""
+                      //                                 : leave.type![0]
+                      //                                         .toUpperCase() +
+                      //                                     leave.type!
+                      //                                         .substring(1),
+                      //                             style: TextStyle(
+                      //                               color: leave.type ==
+                      //                                       'sick'
+                      //                                   ? Theme.of(context)
+                      //                                       .colorScheme
+                      //                                       .inversePrimary
+                      //                                   : const Color(
+                      //                                       0xFFFFD337),
+                      //                               fontSize: 18,
+                      //                               fontWeight:
+                      //                                   FontWeight.bold,
+                      //                             ),
+                      //                           ),
+                      //                           Container(
+                      //                             width: 100,
+                      //                             height: 30,
+                      //                             decoration: ShapeDecoration(
+                      //                               color: leave.requestStatus ==
+                      //                                       'rejected'
+                      //                                   ? const Color(
+                      //                                       0x3FFF3737)
+                      //                                   : leave.requestStatus ==
+                      //                                           'approved'
+                      //                                       ? const Color(
+                      //                                           0x7037FF87)
+                      //                                       : const Color(
+                      //                                           0x3FFFD337),
+                      //                               shape:
+                      //                                   RoundedRectangleBorder(
+                      //                                       borderRadius:
+                      //                                           BorderRadius
+                      //                                               .circular(
+                      //                                                   8)),
+                      //                             ),
+                      //                             alignment: Alignment.center,
+                      //                             padding:
+                      //                                 const EdgeInsets.all(2),
+                      //                             child: Text(
+                      //                               leave.requestStatus ==
+                      //                                       'rejected'
+                      //                                   ? 'Rejected'
+                      //                                   : leave.requestStatus ==
+                      //                                           'approved'
+                      //                                       ? 'Approved'
+                      //                                       : 'Awaiting',
+                      //                               style: TextStyle(
+                      //                                 color: leave.requestStatus ==
+                      //                                         'rejected'
+                      //                                     ? Colors.redAccent
+                      //                                     : leave.requestStatus ==
+                      //                                             'approved'
+                      //                                         ? Colors.green
+                      //                                         : const Color(
+                      //                                             0xFFDAAD0C),
+                      //                                 fontSize: 16,
+                      //                                 fontWeight:
+                      //                                     FontWeight.w700,
+                      //                               ),
+                      //                             ),
+                      //                           ),
+                      //                         ],
+                      //                       ),
+                      //                       content: Column(
+                      //                         mainAxisSize: MainAxisSize.min,
+                      //                         crossAxisAlignment:
+                      //                             CrossAxisAlignment.start,
+                      //                         children: [
+                      //                           Text(
+                      //                             leave.requestDate == null ||
+                      //                                     leave.requestDate ==
+                      //                                         '' ||
+                      //                                     leave.toDate ==
+                      //                                         null ||
+                      //                                     leave.toDate == ''
+                      //                                 ? ""
+                      //                                 : '${getDifference(leave.requestDate!, leave.toDate!)} Day Application',
+                      //                             style: const TextStyle(
+                      //                               color: Colors.black26,
+                      //                               fontSize: 14,
+                      //                               fontWeight:
+                      //                                   FontWeight.w400,
+                      //                             ),
+                      //                           ),
+                      //                           Text(
+                      //                             "${leave.email}",
+                      //                           ),
+                      //                           Text(
+                      //                             "${leave.name}",
+                      //                             style: const TextStyle(
+                      //                               color: Colors.black,
+                      //                               fontSize: 14,
+                      //                               fontWeight:
+                      //                                   FontWeight.w600,
+                      //                             ),
+                      //                           ),
+                      //                           RichText(
+                      //                             text: TextSpan(
+                      //                               text: 'Requested on: ',
+                      //                               style: const TextStyle(
+                      //                                   fontSize: 14,
+                      //                                   fontWeight:
+                      //                                       FontWeight.w400,
+                      //                                   color: Colors.black),
+                      //                               children: <TextSpan>[
+                      //                                 TextSpan(
+                      //                                   text:
+                      //                                       '${leave.requestedOn}',
+                      //                                   style: TextStyle(
+                      //                                     fontSize: 14,
+                      //                                     fontWeight:
+                      //                                         FontWeight.bold,
+                      //                                     color: Theme.of(
+                      //                                             context)
+                      //                                         .primaryColor,
+                      //                                   ),
+                      //                                 ),
+                      //                               ],
+                      //                             ),
+                      //                           ),
+                      //                           RichText(
+                      //                             text: TextSpan(
+                      //                               text: 'Request Date: ',
+                      //                               style: const TextStyle(
+                      //                                   fontSize: 14,
+                      //                                   fontWeight:
+                      //                                       FontWeight.w400,
+                      //                                   color: Colors.black),
+                      //                               children: <TextSpan>[
+                      //                                 TextSpan(
+                      //                                   text:
+                      //                                       '${leave.requestDate}',
+                      //                                   style:
+                      //                                       const TextStyle(
+                      //                                     fontSize: 14,
+                      //                                     fontWeight:
+                      //                                         FontWeight.bold,
+                      //                                     color:
+                      //                                         Colors.blueGrey,
+                      //                                   ),
+                      //                                 ),
+                      //                               ],
+                      //                             ),
+                      //                           ),
+                      //                           RichText(
+                      //                             text: TextSpan(
+                      //                               text: 'Requested Until: ',
+                      //                               style: const TextStyle(
+                      //                                   fontSize: 14,
+                      //                                   fontWeight:
+                      //                                       FontWeight.w400,
+                      //                                   color: Colors.black),
+                      //                               children: <TextSpan>[
+                      //                                 TextSpan(
+                      //                                   text:
+                      //                                       '${leave.toDate}',
+                      //                                   style:
+                      //                                       const TextStyle(
+                      //                                     fontSize: 14,
+                      //                                     fontWeight:
+                      //                                         FontWeight.bold,
+                      //                                     color:
+                      //                                         Colors.blueGrey,
+                      //                                   ),
+                      //                                 ),
+                      //                               ],
+                      //                             ),
+                      //                           ),
+                      //                           RichText(
+                      //                             text: TextSpan(
+                      //                               text: 'Reason: ',
+                      //                               style: const TextStyle(
+                      //                                   fontSize: 14,
+                      //                                   fontWeight:
+                      //                                       FontWeight.w400,
+                      //                                   color: Colors.black),
+                      //                               children: <TextSpan>[
+                      //                                 TextSpan(
+                      //                                   text:
+                      //                                       '${leave.reason}',
+                      //                                   style: TextStyle(
+                      //                                     fontSize: 14,
+                      //                                     fontWeight:
+                      //                                         FontWeight.bold,
+                      //                                     color: Theme.of(
+                      //                                             context)
+                      //                                         .colorScheme
+                      //                                         .primary,
+                      //                                   ),
+                      //                                 ),
+                      //                               ],
+                      //                             ),
+                      //                           ),
+                      //                           if (leave
+                      //                                   .approvedOrRejectedOn !=
+                      //                               "")
+                      //                             RichText(
+                      //                               text: TextSpan(
+                      //                                 text:
+                      //                                     '${leave.requestStatus![0].toUpperCase() + leave.requestStatus!.substring(1)} on: ',
+                      //                                 style: const TextStyle(
+                      //                                     fontSize: 14,
+                      //                                     fontWeight:
+                      //                                         FontWeight.w400,
+                      //                                     color:
+                      //                                         Colors.black),
+                      //                                 children: <TextSpan>[
+                      //                                   TextSpan(
+                      //                                     text: leave
+                      //                                         .approvedOrRejectedOn,
+                      //                                     style: TextStyle(
+                      //                                       fontSize: 14,
+                      //                                       fontWeight:
+                      //                                           FontWeight
+                      //                                               .bold,
+                      //                                       color: leave.requestStatus ==
+                      //                                               'rejected'
+                      //                                           ? Colors
+                      //                                               .redAccent
+                      //                                           : Colors
+                      //                                               .green,
+                      //                                     ),
+                      //                                   ),
+                      //                                 ],
+                      //                               ),
+                      //                             ),
+                      //                           SizedBox(
+                      //                             height: 16,
+                      //                           ),
+                      //                           Row(
+                      //                             mainAxisAlignment:
+                      //                                 MainAxisAlignment
+                      //                                     .spaceEvenly,
+                      //                             children: [
+                      //                               ElevatedButton(
+                      //                                 onPressed: () {
+                      //                                   leaveBloc.add(LeaveStatusChangeEvent(
+                      //                                       email:
+                      //                                           "${leave.email}",
+                      //                                       id:
+                      //                                           "${leave.leaveId}",
+                      //                                       status:
+                      //                                           "rejected"));
+                      //                                   Navigator.pop(
+                      //                                       context);
+                      //                                 },
+                      //                                 child: Text("Reject"),
+                      //                                 style: ElevatedButton
+                      //                                     .styleFrom(
+                      //                                   backgroundColor:
+                      //                                       Colors.red,
+                      //                                   foregroundColor:
+                      //                                       Colors.white,
+                      //                                   shape:
+                      //                                       RoundedRectangleBorder(
+                      //                                     borderRadius:
+                      //                                         BorderRadius
+                      //                                             .circular(
+                      //                                                 5.0),
+                      //                                   ),
+                      //                                 ),
+                      //                               ),
+                      //                               ElevatedButton(
+                      //                                 onPressed: () {
+                      //                                   leaveBloc.add(LeaveStatusChangeEvent(
+                      //                                       email:
+                      //                                           "${leave.email}",
+                      //                                       id:
+                      //                                           "${leave.leaveId}",
+                      //                                       status:
+                      //                                           "approved"));
+                      //                                   Navigator.pop(
+                      //                                       context);
+                      //                                 },
+                      //                                 child: Text("Approve"),
+                      //                                 style: ElevatedButton
+                      //                                     .styleFrom(
+                      //                                   backgroundColor:
+                      //                                       Colors.green,
+                      //                                   foregroundColor:
+                      //                                       Colors.white,
+                      //                                   shape:
+                      //                                       RoundedRectangleBorder(
+                      //                                     borderRadius:
+                      //                                         BorderRadius
+                      //                                             .circular(
+                      //                                                 5.0),
+                      //                                   ),
+                      //                                 ),
+                      //                               ),
+                      //                             ],
+                      //                           ),
+                      //                         ],
+                      //                       ),
+                      //                       shape: OutlineInputBorder(
+                      //                           borderRadius:
+                      //                               BorderRadius.circular(10),
+                      //                           borderSide: BorderSide.none),
+                      //                     ),
+                      //                   );
+                      //                 });
+                      //           },
+                      //           shape: RoundedRectangleBorder(
+                      //             side: BorderSide(
+                      //               width: 1,
+                      //               color: Colors.black.withOpacity(0.5),
+                      //             ),
+                      //             borderRadius: BorderRadius.circular(16),
+                      //           ),
+                      //           trailing: Container(
+                      //             width: 100,
+                      //             height: 30,
+                      //             decoration: ShapeDecoration(
+                      //               color: leave.requestStatus == 'rejected'
+                      //                   ? const Color(0x3FFF3737)
+                      //                   : leave.requestStatus == 'approved'
+                      //                       ? const Color(0x7037FF87)
+                      //                       : const Color(0x3FFFD337),
+                      //               shape: RoundedRectangleBorder(
+                      //                   borderRadius:
+                      //                       BorderRadius.circular(8)),
+                      //             ),
+                      //             alignment: Alignment.center,
+                      //             padding: const EdgeInsets.all(2),
+                      //             child: Text(
+                      //               leave.requestStatus == 'rejected'
+                      //                   ? 'Rejected'
+                      //                   : leave.requestStatus == 'approved'
+                      //                       ? 'Approved'
+                      //                       : 'Awaiting',
+                      //               style: TextStyle(
+                      //                 color: leave.requestStatus == 'rejected'
+                      //                     ? Colors.redAccent
+                      //                     : leave.requestStatus == 'approved'
+                      //                         ? Colors.green
+                      //                         : const Color(0xFFDAAD0C),
+                      //                 fontSize: 16,
+                      //                 fontWeight: FontWeight.w700,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //           title: Column(
+                      //             mainAxisAlignment: MainAxisAlignment.start,
+                      //             crossAxisAlignment:
+                      //                 CrossAxisAlignment.start,
+                      //             mainAxisSize: MainAxisSize.min,
+                      //             children: [
+                      //               Text(
+                      //                 "${leave.name}",
+                      //                 style: const TextStyle(
+                      //                   color: Colors.black,
+                      //                   fontSize: 14,
+                      //                   fontWeight: FontWeight.w600,
+                      //                 ),
+                      //               ),
+                      //               Text(
+                      //                 "${leave.email}",
+                      //                 style: const TextStyle(
+                      //                   color: Colors.black38,
+                      //                   fontSize: 14,
+                      //                   fontWeight: FontWeight.w400,
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //           subtitle: Column(
+                      //             mainAxisSize: MainAxisSize.min,
+                      //             crossAxisAlignment:
+                      //                 CrossAxisAlignment.start,
+                      //             children: [
+                      //               Text(
+                      //                 formatDateString(
+                      //                     "${leave.requestDate}"),
+                      //                 style: const TextStyle(
+                      //                   color: Colors.black,
+                      //                   fontSize: 16,
+                      //                   fontWeight: FontWeight.w700,
+                      //                   height: 0,
+                      //                 ),
+                      //               ),
+                      //               Text(
+                      //                 leave.type![0].toUpperCase() +
+                      //                     leave.type!.substring(1),
+                      //                 style: TextStyle(
+                      //                   color: leave.type == 'sick'
+                      //                       ? Theme.of(context)
+                      //                           .colorScheme
+                      //                           .inversePrimary
+                      //                       : const Color(0xFFFFD337),
+                      //                   fontSize: 16,
+                      //                   fontWeight: FontWeight.w400,
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       );
+                      //     }),
+
                       if (state is GetAdminLeaveRequestsNotFound)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,

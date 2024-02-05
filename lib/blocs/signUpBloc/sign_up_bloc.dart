@@ -79,6 +79,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
             prefs.setString("name", name);
             prefs.setString("email", email);
             prefs.setString("batch", batch);
+            prefs.setString('role', 'user');
 
             emit(SignUpSuccessState());
           } else if (response.statusCode == 406) {

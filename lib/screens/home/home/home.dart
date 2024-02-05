@@ -18,6 +18,8 @@ import '../../AdminScreens/add_new_admin.dart';
 import '../../AdminScreens/attendance/list_attendance_admin.dart';
 import '../../AdminScreens/leave/leave_requests_admin.dart';
 import '../../AdminScreens/user/all_users.dart';
+import '../late/late_requests.dart';
+import '../late/request_late.dart';
 import '../leave/leave_requests.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -514,7 +516,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         },
                       ),
 
-                    if (email == "ptfattendance@gmail.com" || email == "ptfattendanceapp@gmail.com")
+                    if (email == "ptfattendance@gmail.com" ||
+                        email == "ptfattendanceapp@gmail.com")
                       TextButton(
                         onPressed: () {
                           nav.Get.to(const AddNewAdmin());
@@ -528,6 +531,163 @@ class _MyHomePageState extends State<MyHomePage> {
                               decorationColor: Theme.of(context).primaryColor),
                         ),
                       ),
+
+                    const SizedBox(
+                      height: 45,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            nav.Get.to(RequestLate());
+                          },
+                          child: Stack(
+                            alignment: Alignment.topCenter,
+                            clipBehavior: Clip.none,
+                            children: [
+                              Container(
+                                width: 90,
+                                height: 100,
+                                alignment: Alignment.center,
+                                decoration: ShapeDecoration(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(7)),
+                                  shadows: const [
+                                    BoxShadow(
+                                      color: Color(0x3F000000),
+                                      blurRadius: 4,
+                                      offset: Offset(0, 4),
+                                      spreadRadius: 0,
+                                    )
+                                  ],
+                                ),
+                                child: role == 'admin'
+                                    ? const Text(
+                                        'Add Late',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Color(0xFF6D35A4),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            height: 1,
+                                            letterSpacing: 1),
+                                      )
+                                    : const Text(
+                                        'Request\nLate',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Color(0xFF6D35A4),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            height: 1,
+                                            letterSpacing: 1),
+                                      ),
+                              ),
+                              Positioned(
+                                top: -30,
+                                left: 15,
+                                child: Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: role == 'admin'
+                                      ? ShapeDecoration(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            side: const BorderSide(
+                                                width: 0.5,
+                                                color: Colors.black12),
+                                          ),
+                                          image: const DecorationImage(
+                                            image: AssetImage(
+                                                'assets/images/business.png'),
+                                          ),
+                                        )
+                                      : ShapeDecoration(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              side: const BorderSide(
+                                                  width: 0.5,
+                                                  color: Colors.black12)),
+                                        ),
+                                  child: role == 'admin'
+                                      ? Container()
+                                      : Lottie.asset(
+                                          'assets/lottie/running-robo.json',
+                                        ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            nav.Get.to(LateRequests());
+                          },
+                          child: Stack(
+                            alignment: Alignment.topCenter,
+                            clipBehavior: Clip.none,
+                            children: [
+                              Container(
+                                width: 90,
+                                height: 100,
+                                alignment: Alignment.center,
+                                decoration: ShapeDecoration(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(7)),
+                                  shadows: const [
+                                    BoxShadow(
+                                      color: Color(0x3F000000),
+                                      blurRadius: 4,
+                                      offset: Offset(0, 4),
+                                      spreadRadius: 0,
+                                    )
+                                  ],
+                                ),
+                                child: const Text(
+                                  'View Late Requests',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Color(0xFF6D35A4),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1,
+                                      letterSpacing: 1),
+                                ),
+                              ),
+                              Positioned(
+                                top: -30,
+                                left: 15,
+                                child: Container(
+                                  width: 60,
+                                  height: 60,
+                                  decoration: ShapeDecoration(
+                                    image: const DecorationImage(
+                                      image:
+                                          AssetImage('assets/images/list.png'),
+                                      fit: BoxFit.contain,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                        side: const BorderSide(
+                                            width: 0.5, color: Colors.black12)),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(
+                      height: 20,
+                    ),
                   ],
                 ),
               ),
