@@ -245,6 +245,7 @@ class _LeaveRequestsState extends State<LeaveRequests> {
                       if (state is ListLeaveSuccessState)
                         GroupedListView<LeaveRequest, dynamic>(
                           elements: leaveRequests!,
+                          reverse: true,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           groupBy: (element) {

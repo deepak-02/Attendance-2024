@@ -280,6 +280,7 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                           elements: leaveRequests!,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
+                          reverse: true,
                           groupBy: (element) {
                             // print(element.requestedOn);
                             String? dateString = element.requestedOn;
@@ -566,6 +567,8 @@ class _LeaveRequestsAdminState extends State<LeaveRequestsAdmin> {
                                                 const SizedBox(
                                                   height: 16,
                                                 ),
+                                                if(leave.requestStatus ==
+                                                    'requested')
                                                 Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment

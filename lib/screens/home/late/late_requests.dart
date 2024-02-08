@@ -375,6 +375,7 @@ class _LateRequestsState extends State<LateRequests> {
                           state is GetLateByEmailSuccessState)
                         GroupedListView<LateRequest, dynamic>(
                           elements: lateRequests!,
+                          reverse: true,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           groupBy: (element) {

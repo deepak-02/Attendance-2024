@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class About extends StatefulWidget {
   const About({super.key});
@@ -9,6 +10,29 @@ class About extends StatefulWidget {
 }
 
 class _AboutState extends State<About> {
+
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+    installerStore: 'Unknown',
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -51,12 +75,13 @@ class _AboutState extends State<About> {
                           fontSize: 26.0,
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 4.0),
+                       Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
-                          'Version 5.1.0',
-                          style: TextStyle(
-                            // color: Color.fromRGBO(255, 255, 255, 0.5),
+                          // 'Version 5.1.1',
+                          'Version ${_packageInfo.version.isEmpty ? 'unknown' : _packageInfo.version}',
+                          style: const TextStyle(
+                            color: Colors.black,
                             fontSize: 18.0,
                           ),
                         ),

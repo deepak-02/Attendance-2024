@@ -97,6 +97,7 @@ class _MyAttendanceState extends State<MyAttendance> {
 
               child: GroupedListView<Attendance, dynamic>(
                 elements: attendance!,
+                reverse: true,
                 groupBy: (element) {
                   String? dateString = element.attendanceIn!.date;
                   DateTime date = DateFormat('M/d/yyyy').parse(dateString!);
